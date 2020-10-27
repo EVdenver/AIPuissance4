@@ -1,0 +1,14 @@
+Todo :
+- Save As XML
+- Stop computer
+- Grille : remove old code of window closing (see ferme / fermer (don't forget ActionPerformed))
+
+0.2
+----
+
+- NEW : Possibility to have a network play
+- FIXED : If the last opened window is closed, the program is closed
+- User not allowed to close Options window
+- Computer enhanced
+- Code cleanup : Options.class seperated into OptionsGUI.class & Options.class, new methods added in OptionsGUI & Grille.class, etc.
+- More comments in source
