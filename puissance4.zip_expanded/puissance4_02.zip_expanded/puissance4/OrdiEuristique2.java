@@ -1,20 +1,20 @@
 
 public class OrdiEuristique2 {
-	Jeu j;
-	boolean joueur;
+	private Jeu j;
+	private boolean joueur;
 	
-	public OrdiEuristique2(Boolean joueur){
-		
+	public OrdiEuristique2(Boolean joueur, Jeu j){
+		this.j=j;
 	}
 	
 	
 	
 	public int calculerNb4pos(Case c) {
 		byte jVal = 1; // Variable contenant la valeur du joueur, un byte suffit
-		if (joueur) {
+		if (j.joueur) {
 			jVal = 2;
 		}
-	int row=c.ligne;
+	
 	
 	int nbd4p=0;
 	
@@ -40,7 +40,7 @@ public class OrdiEuristique2 {
 			// observe les case horizontal
 			// verifie les cases a gauche
 			if(c.col-i>=0 && !stopg) {
-				if(j.matJeu[c.ligne][c.col-i]==0 |j.matJeu[c.ligne][c.col-i]==jVal) {
+				if(j.matJeu[c.ligne][c.col-i]==0 || j.matJeu[c.ligne][c.col-i]==jVal) {
 					nbhori++;
 				}
 				else {
@@ -52,7 +52,7 @@ public class OrdiEuristique2 {
 			}
 			// verifie les cases a gauche
 			if(c.col+i<j.matJeu[0].length && !stopd) {
-				if(j.matJeu[c.ligne][c.col+i]==0 |j.matJeu[c.ligne][c.col+i]==jVal) {
+				if(j.matJeu[c.ligne][c.col+i]==0 || j.matJeu[c.ligne][c.col+i]==jVal) {
 					nbhori++;
 				}
 				else {
