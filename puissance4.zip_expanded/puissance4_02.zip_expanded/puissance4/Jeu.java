@@ -8,7 +8,8 @@ public class Jeu {
 	boolean enCours;	// Indique si la partie est en cours ou terminée
 	boolean joueur;		// Indique le joueur en cours
 	int[] historique;	// Enregistre les colonnes jouées
-	Options opts;		// Une fenêtre d'options	
+	Options opts;		// Une fenêtre d'options
+	Computer deep;	
 	
 	public Jeu(boolean optTrue) {
 		if (optTrue)
@@ -246,7 +247,14 @@ public class Jeu {
 			int ok = Saisie.question_ouinon("La partie est terminee, voulez-vous en faire une nouvelle ?", "Nouvelle partie");
 			if (ok == 0)
 				nouveauJeu();
-		}		
+		}
+		else {
+			if (opts.computerOn && joueur != opts.computerStarts)
+				this.ordiJoue();
+			
+		}
+			
+				
 	}
 	
 	// Méthode testant la validité d'un coup
@@ -283,6 +291,32 @@ public class Jeu {
 		return -1; // Aucune ligne n'a été trouvée : la colonne est remplie
 	}
 	
+	/** Asks the computer to play */	
+	public void ordiJoue() {
+		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
+		plateau.repaint();
+		deep.nbCoups = nbCoups;
+		deep.joueurBase = joueur; // A SUPPRIMER
+		//deep.matJeu = matJeu;
+		deep.matJeu = new byte[opts.getGameHeight()][opts.getGameWidth()];
+		deep.matJeu2 = new byte[opts.getGameHeight()][opts.getGameWidth()];
+		for (int i = 0; i < opts.getGameHeight(); i++) {
+			for (int j = 0; j < opts.getGameWidth(); j++) {
+				deep.matJeu[i][j] = matJeu[i][j];
+				deep.matJeu2[i][j] = matJeu[i][j];
+			}
+		}	
+		
+		jouer(deep.ordiJoue(joueur));
+		
+	}
+	
+	/** If network enabled, sends to the other user the move just played locally and waits for the other user to play
+	 * and makes other user's move played locally
+	 * @param col Col to be send to the other user
+	 * @param wait true if waits for a distant user's move false if just sends the local move
+	 */	
+	
 	
 	/** Makes a new game */	
 	public static void nouveauJeu() {
@@ -300,10 +334,18 @@ public class Jeu {
 			out.write(opts.getGameHeight() + " ");
 			out.write(opts.getGameWidth() + " ");
 			out.write(nbCoups + " ");
+			out.write(deep.p2 + " ");
 			
-			out.write("0 ");
+			if (opts.computerOn)
+				out.write("1 ");
+			else
+				out.write("0 ");
 			
-			out.write("0 \n");
+			if (opts.computerStarts)
+				out.write("1 \n");
+			else
+				out.write("0 \n");
+			
 			
 			for (int i = 0; i < nbCoups; i++)
 				out.write(historique[i] + " ");
@@ -328,6 +370,9 @@ public class Jeu {
 				int nbR = Integer.parseInt(s.nextToken());
 				int nbC = Integer.parseInt(s.nextToken());
 				int nbCou = Integer.parseInt(s.nextToken());
+				int difficult = Integer.parseInt(s.nextToken());
+				int computerO = Integer.parseInt(s.nextToken());
+				int computerStart = Integer.parseInt(s.nextToken());
 
 				line = out.readLine();
 				out.close();
@@ -335,9 +380,16 @@ public class Jeu {
 
 				Jeu j = new Jeu(false);
 				j.opts = new Options(nbR, nbC, j);
+				j.deep = new Computer(difficult);
 
 				for (int i = 0; i < nbCou; i++)
 					j.jouer(Integer.parseInt(s.nextToken()));
+
+				// On charge l'ordinateur ici, après que la partie ait été chargée, pour éviter des pbs...
+				if (computerO == 1)
+					j.opts.computerOn = true;
+				if (computerStart == 1)
+					j.opts.computerStarts = true;
 			}
 			else
 				Saisie.erreurMsgOk("Le fichier que vous tentez d'ouvrir n'est pas un fichier de Puissance 4 valide.", "Access violation error ;o)");

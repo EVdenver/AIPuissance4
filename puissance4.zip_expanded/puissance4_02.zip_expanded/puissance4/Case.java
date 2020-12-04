@@ -28,7 +28,6 @@ public class Case extends JPanel {
 		repaint();
 	}
 	
-	//Permet la coloration d'une case avec un oval rouge ou jaune afin de simuler les pions
 	public void paintComponent(Graphics comp) {
 		Graphics2D comp2D = (Graphics2D)comp;
 		comp2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

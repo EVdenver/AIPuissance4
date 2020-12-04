@@ -154,10 +154,10 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 			if (ok == 0)
 				System.exit(0);
 		}*/
-		/*else if (src == comput) {
+		else if (src == comput) {
 			Case c = (Case)this.pane.getComponent(0);
 			c.jeu.ordiJoue();
-		}*/
+		}
 	}
 	
 	public void windowActivated(java.awt.event.WindowEvent windowEvent) {
