@@ -1,4 +1,6 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Jeu {
@@ -293,6 +295,11 @@ public class Jeu {
 	
 	/** Asks the computer to play */	
 	public void ordiJoue() {
+		System.out.println("HeuriMinMax au nombre de coup: " + nbCoups);
+		System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(this, true));
+		System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(this, false));
+		
+		
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
 		deep.nbCoups = nbCoups;

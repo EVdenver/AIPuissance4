@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Case extends JPanel {
 	int val;
-	int ligne;
+	int ligne; // ligne et colone commence a 1
 	int col;
 	Jeu jeu;
 	Color bgCol;
@@ -48,27 +48,30 @@ public class Case extends JPanel {
 	}
 	///////////////////////////////////////////////////////////////////////////////////
 	
-	public Case compareCase4(Case C2,boolean joueur) {
-		int i1=this.calculerNb4pos();
+	@Override
+	public String toString() {
+		return "Case [ligne=" + ligne + ", col=" + col + "]";
+	}
+	// elle renvoie 1 si la case courante a plus de possibilité, 0 si il ont la même quantité de possibilité, et -1 si c'est Cé qui a plus de possibilité
+	public int comparePossibilite(Case C2) {
+		int possibiliteCaseCourante=this.calculerNb4pos();
 		if(C2==null ) {
-			return this;
+			throw new NullPointerException() ;
 		}
-		int i2=C2.calculerNb4pos();
+		int possibiliteC2=C2.calculerNb4pos();
+
+
+		if(possibiliteCaseCourante>possibiliteC2) {
+			return 1;
+		}
 		
-		if(joueur) {
-			if(i1>=i2) {
-				return this;
-				}
-				return C2;
+		if(possibiliteCaseCourante==possibiliteC2) {
+			return 0;
 		}
-		else if(!joueur) {
-			if(i1<=i2) {
-				return this;
-				}
-				return C2;
-		}
-		return C2;
-		}
+		return-1;
+
+		
+	}
 	
 	
 	
@@ -76,8 +79,9 @@ public class Case extends JPanel {
 	
 	
 	
-	
+	// renvoie le nombre de ligne de 4 possible pour une case
 	public int calculerNb4pos() {
+		
 		Case c=this;
 		byte jVal = 1; // Variable contenant la valeur du joueur, un byte suffit
 		if (jeu.joueur) {
@@ -103,12 +107,14 @@ public class Case extends JPanel {
 	
 	boolean stopadiagg=false;
 	boolean stopadiagd=false;
-	
+	System.out.println("la case: "+ this);
 		for(int i=1; i<=3;i++) {
 			
 			// observe les case horizontal
 			// verifie les cases a gauche
-			if(c.col-i>=0 && !stopg) {
+			if(c.col-i>0 && !stopg) {
+				
+				System.out.println("la col: "+ c.col);
 				if(jeu.matJeu[c.ligne][c.col-i]==0 || jeu.matJeu[c.ligne][c.col-i]==jVal) {
 					nbhori++;
 				}
@@ -133,7 +139,7 @@ public class Case extends JPanel {
 			}
 			
 			//observe les cases vertical
-			if(c.ligne-i>=0/* faut voir les limites de la matrice*/ && !stopb) {
+			if(c.ligne-i>0/* faut voir les limites de la matrice*/ && !stopb) {
 				if(jeu.matJeu[c.ligne-i][c.col]==jVal||jeu.matJeu[c.ligne-i][c.col]==0) {
 					nbverti++;
 				}
@@ -156,7 +162,7 @@ public class Case extends JPanel {
 				stoph=true;
 			}
 			// anti diag
-			if(c.ligne-i>=0 && c.col+i<jeu.matJeu[0].length && !stopadiagd) {
+			if(c.ligne-i>0 && c.col+i<jeu.matJeu[0].length && !stopadiagd) {
 				if(jeu.matJeu[c.ligne-i][c.col+i]==0 |jeu.matJeu[c.ligne-i][c.col+i]==jVal) {
 					nbadiag++;
 				}
@@ -182,7 +188,7 @@ public class Case extends JPanel {
 			}
 			
 			// diagonal
-			if(c.ligne-i>=0 && c.col-i>=0 && !stopdiagg) {
+			if(c.ligne-i>0 && c.col-i>0 && !stopdiagg) {
 				if(jeu.matJeu[c.ligne-i][c.col-i]==0 |jeu.matJeu[c.ligne-i][c.col-i]==jVal) {
 					nbdiag++;
 				}
