@@ -48,21 +48,28 @@ public class Case extends JPanel {
 	}
 	///////////////////////////////////////////////////////////////////////////////////
 	
-	public Case compareCase4(Case C2) {
+	public Case compareCase4(Case C2,String s) {
 		int i1=this.calculerNb4pos();
 		if(C2==null ) {
 			return this;
 		}
 		int i2=C2.calculerNb4pos();
 		
-		
-		if(i1>=i2) {
-			return this;
+		if(s=="max") {
+			if(i1>=i2) {
+				return this;
+				}
+				return C2;
 		}
-		
-			return C2;
-		
-	}
+		else if(s=="min") {
+			if(i1<=i2) {
+				return this;
+				}
+				return C2;
+		}
+		return C2;
+		}
+	
 	
 	
 	
