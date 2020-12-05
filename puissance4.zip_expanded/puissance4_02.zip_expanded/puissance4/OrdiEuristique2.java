@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class OrdiEuristique2 {
 	private Jeu j;
@@ -7,6 +8,15 @@ public class OrdiEuristique2 {
 		this.j=j;
 	}
 	
+	public static <Case> ArrayList<Case> couPossible() {
+		
+		ArrayList<Case> resultat = new ArrayList<>();
+		for(int i=0;i<j.matJeu[0].length();i++)
+		
+		
+		return resultat;
+		
+	}
 	
 	
 }
