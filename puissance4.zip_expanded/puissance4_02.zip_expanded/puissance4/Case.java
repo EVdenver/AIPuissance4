@@ -47,4 +47,19 @@ public class Case extends JPanel {
 		}
 	}
 	
+	public Case compareCase4(Case C2) {
+		t1=OrdiEuristique2.calculerNb4pos(this);
+		t2=OrdiEuristique2.calculerNb4pos(this)
+		if(C2==null ) {
+			return this;
+		}
+		
+		if(calculerNb4pos(this)>=calculerNb4pos(C2)) {
+			return this;
+		}
+		if(calculerNb4pos(C2)>calculerNb4pos(this)) {
+			return C2;
+		}
+	}
+	
 }
