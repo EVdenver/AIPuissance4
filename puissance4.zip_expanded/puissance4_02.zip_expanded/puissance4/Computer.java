@@ -54,12 +54,6 @@ class Computer {
 		nbCoups--;
 		
 		
-		/*for (int i = 0; i < matJeu.length; i++) {
-			for (int j = 0; j < matJeu[0].length; j++) {
-				System.out.print(matJeu[i][j] + " ");
-			}
-		}*/
-		
 		int colResult = -2; // POUR TESTER
 		for (col = 0; col < matJeu[0].length; col++) {
 			ligne = searchLine(col);

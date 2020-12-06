@@ -23,6 +23,73 @@ public class Case extends JPanel {
 		repaint();
 	}
 	
+	public int nbCaseVideAround() {
+		int res = 0;
+		byte jVal = 1; // Variable contenant la valeur du joueur
+		if (jeu.joueur)
+			jVal = 2;
+		int nbCol = jeu.opts.getGameWidth();
+		int nbRow = jeu.opts.getGameHeight();
+		Case cc; 
+		if (ligne+1 <= nbRow && col-1 >= 0) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne+1) - 1) + ((col-1) - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}else if (col-1 >= 0) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * (ligne - 1) + ((col-1) - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}else if (ligne-1 >= 0 && col-1 >= 0) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + ((col-1) - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}else if (ligne-1 >= 0) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + (col - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}else if (ligne-1 >= 0 && col+1 <= nbCol) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + ((col+1) - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}else if (col+1 <= nbCol) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * (ligne - 1) + ((col+1) - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}else if (ligne+1 <= nbRow && col+1 <= nbCol) {
+			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne+1) - 1) + ((col+1) - 1));
+			if (cc.val == 0 || cc.val == jVal) {
+				res++;
+			}
+		}
+		return res;
+	}
+	
+	public Case compareCaseMinMax(Case c, boolean joueur) {
+		if (joueur) {//Le joueur est min
+			if (this.nbCaseVideAround() < c.nbCaseVideAround()) {
+				return c;
+			}else if (this.nbCaseVideAround() > c.nbCaseVideAround()) {
+				return this;
+			}else {//Les 2 cases ont le même nombre de cases vides donc on garde la première
+				return c;
+			}
+		}else {//Le joueur est max
+			if (this.nbCaseVideAround() < c.nbCaseVideAround()) {
+				return this;
+			}else if (this.nbCaseVideAround() > c.nbCaseVideAround()) {
+				return c;
+			}else {//Les 2 cases ont le même nombre de cases vides donc on garde la première
+				return c;
+			}
+		}
+	}
+	
 	public void modifierBg(Color c) {
 		this.bgCol = c;
 		repaint();
