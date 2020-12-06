@@ -1,54 +1,140 @@
 import java.util.ArrayList;
 
 public class Heuristiques {
-	
-	
-	 	
-	static public ArrayList<Case> couPossible(Jeu jeu) {
-		
-		ArrayList<Case> resultat = new ArrayList<>();
-		for(int i=1;i<=jeu.matJeu[0].length;i++)// commence a 1 parsque dans la methode jeu.searchLine sa va de 1 a length
+	private static int nbRow;
+
+
+
+	public Heuristiques(Jeu jeu) {
+		Noeud.jeu=jeu; // tout les noeud concerneront ce jeu
+		Heuristiques.nbRow = jeu.opts.getGameHeight();
+	}
+
+	static public ArrayList<Noeud> couPossible(byte[][] matJeuSim) {
+
+		ArrayList<Noeud> resultat = new ArrayList<>();
+		for(int i=1;i<=matJeuSim[0].length;i++)// commence a 1 parsque dans la methode searchLine sa va de 1 a length
 		{
-			int l=jeu.searchLine(i);
+			int l=searchLine(i,matJeuSim);
 			if(l!=-1) {
-			Case n= new Case(l,i,0,jeu);
-			
-			
-			resultat.add(n); 
+			Noeud n= new Noeud(l,i,0,null,new ArrayList<Noeud>(),0,matJeuSim);
+			resultat.add(n);
 			}
 		}
-		
-		 
-		return resultat;	
-	}
-	
-	// renvoie la colone du choix avec le plus ou le moins de ligne possible en fonction du paramètre max pour le coups prochain uniquement
-	static public int HeuriMinMax(Jeu jeu, boolean max) {
 
-		ArrayList<Case> couPossible=couPossible(jeu);
-		if(couPossible.isEmpty()) return -1;
-		Case choix=couPossible.get(0);
+		return resultat;
+	}
+
+	// renvoie la colone du choix avec le plus ou le moins de ligne possible en fonction du paramï¿½tre max pour le coups prochain uniquement
+	static public Noeud HeuriMinMax(boolean max, byte[][] matJeu) {
+		ArrayList<Noeud> couPossible=couPossible(matJeu);
+		if(couPossible.isEmpty()) return null;
+		Noeud choix=couPossible.get(0);
 		couPossible.remove(0);
 
 		while(!couPossible.isEmpty()) {
-			choix=(max)?((choix).comparePossibilite((Case)couPossible.get(1))>=0)?choix:couPossible.get(1)
-					:((choix).comparePossibilite((Case)couPossible.get(1))<0)?choix:couPossible.get(1);
-
+			choix=(max)?((choix).comparePossibilite(couPossible.get(0))>=0)?choix:couPossible.get(0)
+					:((choix).comparePossibilite(couPossible.get(0))<0)?choix:couPossible.get(0);
 			couPossible.remove(0);
 		}
-		return choix.col;
+		return choix;
 	}
-	
-	// renvoie la colone qui lorsque ce cera le tour de l'adversaire lui laissera le moins de possibilité
+
+	// renvoie la colone qui lorsque ce cera le tour de l'adversaire lui laissera le moins de possibilitï¿½
 	static public int HeuriBloqueur(Jeu jeu) {
-		// 1 : trouver tout les choix possible de jeu 
-		// 2 : pour chacun de ses choix possible evaluer le nombre de possiblité de du meilleur coup qe peut faire l'adversaire ( est-qu'il peut jouer un coup a 3 possibilité à 4 possibilité)
-		// 3 : choissir le coup pour lequel de possibilité du meilleur coup adverse sera le plus faible
-		
+		// 1 : trouver tout les choix possible de jeu
+		// 2 : pour chacun de ses choix possible evaluer le nombre de possiblitï¿½ de du meilleur coup qe peut faire l'adversaire ( est-qu'il peut jouer un coup a 3 possibilitï¿½ ï¿½ 4 possibilitï¿½)
+		// 3 : choissir le coup pour lequel de possibilitï¿½ du meilleur coup adverse sera le plus faible
+
 		return 0;
-		
+
 	}
 
+
+
+	// nbCoupMax correspondant au nombre de coup restant ï¿½ jouer ï¿½ ce moment de la partie
+	static public Noeud HeuriMinMaxProfonde(boolean max, byte[][] matJeu, int nbCoupMax) {
+		Noeud choix = HeuriMinMax( max,  matJeu); // on initialise pour une profondeur de 0
+		Noeud coupTrouve;
+		int poidMax=choix.poid;
+
+		if (poidMax != Noeud.MAX_POID) { // si le premier trouvï¿½ n'est pas le noeud optimale
+			ArrayList<Noeud> choixPossible = new ArrayList<Noeud>();
+
+			for (int i=1; i<nbCoupMax;i++) {
+				coupTrouve =minMaxProfondeArbreRecherche(couPossible(matJeu), i,  max);
+				if (coupTrouve.poid>poidMax) {
+					choix = coupTrouve;
+					poidMax=coupTrouve.poid;
+				}
+				if (choix.poid == Noeud.MAX_POID) break;
+			}
+		}
+
+
+		// remontï¿½ les parents de choix sur profondeur niveau
+		int profondeurAREmonter = choix.profondeur;
+		for (int i=0;i<profondeurAREmonter;i++) {
+			choix=choix.parent;
+		}
+
+
+		return choix;
+
+
+	}
+
+
+
+
+	// une profondeur de 0 correspond ï¿½ une recherche sur les coups directement suivants pour le jeu j
+	static public Noeud minMaxProfondeArbreRecherche(ArrayList<Noeud> choixPossibles, int profondeur, boolean max) {
+		ArrayList<Noeud> nouveauChoixPossibles = new ArrayList<Noeud>();
+		if (profondeur == 0) { // on prend celui qui sur la liste ï¿½ le meilleur rï¿½sultats
+			Noeud choix=choixPossibles.get(0);
+			choixPossibles.remove(0);
+			while(!choixPossibles.isEmpty()) {
+				choix=(max)?((choix).comparePossibilite(choixPossibles.get(1))>=0)?choix:choixPossibles.get(1) // attention, il faut adapter les mï¿½thodes pour qu'elle calculent les choix possibles sur le matJeuSim contenu dans le Neoud et non le matJeu de Jeu
+						   :((choix).comparePossibilite(choixPossibles.get(1))<0)?choix:choixPossibles.get(1);
+				choixPossibles.remove(0);
+				// de plus, il faut instancier le paramï¿½tres "poid" de Noeud avec le nombre de ligne4
+			}
+			choix.poid=choix.calculerNb4pos( choix.matJeuSim);
+			return choix;
+		}
+		else{
+			for (Noeud noeud : choixPossibles) { // pour chaque noeud de ce niveau de profondeur
+				byte[][] matJeuSimSuivant = noeud.matJeuSim.clone();  // on clone le tableau de jeu
+				matJeuSimSuivant[noeud.ligne-1][noeud.col-1]=(byte) 555; //  et on joue la case correspondante joueur.jVal
+				ArrayList<Noeud> enfants = couPossible(matJeuSimSuivant);  // on produit les nouveaux coups possibles ï¿½ partir de cet ï¿½tat
+				for (int i=0;i<enfants.size();i++) {
+					enfants.get(i).parent=noeud;  // chacun de ses nouveaux noeuds ont pour parent le noeud courant
+					enfants.get(i).profondeur=noeud.profondeur+1; // chaque enfant a la profondeur de son parent +1
+				}
+				noeud.enfants=enfants; // et le noeud courant ï¿½ pour enfants tout ces nouveaux choix possibles
+				nouveauChoixPossibles.addAll(enfants); // on ajoute ses noeuds possibles ï¿½ ce que l'on va parcourir lors de la prochaine couche
+			}
+		}
+		return minMaxProfondeArbreRecherche(nouveauChoixPossibles,  profondeur-1,  max);	// on fait une recherche sur les choix de la nouvelle couche en prï¿½cisant que la profonder ï¿½ ï¿½voluer
+	}
+
+
+
+
+
+
+
+	// Mï¿½thode cherchant la 1ï¿½re ligne jouable d'une colonne (gravitation...)
+		/** Search the row to be played for a given col (gravity law...)
+		 * @param col col for which the method searches the line
+		 * @return Number of the line corresponding to the col, -1 if the col is full
+		 */
+		public static int searchLine(int col, byte[][] matJeu) {
+			for (int i = nbRow; i >= 1; i--) {
+				if (matJeu[i - 1][col - 1] == 0)
+					return i;
+			}
+			return -1; // Aucune ligne n'a ï¿½tï¿½ trouvï¿½e : la colonne est remplie
+		}
+		
 }
-
-

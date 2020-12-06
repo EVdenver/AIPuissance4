@@ -296,8 +296,8 @@ public class Jeu {
 	/** Asks the computer to play */	
 	public void ordiJoue() {
 		System.out.println("HeuriMinMax au nombre de coup: " + nbCoups);
-		System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(this, true));
-		System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(this, false));
+		System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(true, this.matJeu));
+		System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(false, this.matJeu));
 		
 		
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
