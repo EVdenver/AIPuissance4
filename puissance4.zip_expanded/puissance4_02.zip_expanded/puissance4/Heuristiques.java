@@ -90,7 +90,7 @@ public class Heuristiques {
 			}*/
 			choix=minMaxProfondeArbreRecherche(couPossible(matJeu), nbCoupMax,  max);
 		// remont� les parents de choix sur profondeur niveau
-			System.out.println();
+			
 		int profondeurAREmonter = choix.profondeurARemonter;
 		for (int i=0;i<profondeurAREmonter;i++) {
 			choix=choix.parent;
@@ -107,11 +107,13 @@ public class Heuristiques {
 
 	// une profondeur de 0 correspond � une recherche sur les coups directement suivants pour le jeu j
 	static public Noeud minMaxProfondeArbreRecherche(ArrayList<Noeud> choixPossibles, int profondeur, boolean max) {
+			
 		System.out.println("entrer dans la methode arbre");
 		ArrayList<Noeud> nouveauChoixPossibles = new ArrayList<Noeud>();
 		
 			if (profondeur == 0) { // on prend celui qui sur la liste � le meilleur r�sultats
 			for (Noeud noeud : choixPossibles) {
+				
 				noeud.poid=noeud.calculerNb4pos(noeud.matJeuSim);
 			}
 			Noeud choix=choixPossibles.get(0);// erreur finit par renvoyer un arraylist vide
@@ -129,6 +131,9 @@ public class Heuristiques {
 		else{
 			for (Noeud noeud : choixPossibles) { // pour chaque noeud de ce niveau de profondeur
 				byte[][] matJeuSimSuivant = cloneByte(noeud.matJeuSim);  // on clone le tableau de jeu
+				
+				
+				
 				if(noeud.jeu.joueur) {
 					if(profondeur%2==0) {
 						matJeuSimSuivant[noeud.ligne-1][noeud.col-1]=(byte)2; //  et on joue la case correspondante joueur.jVal

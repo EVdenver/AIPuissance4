@@ -303,8 +303,8 @@ public class Jeu {
 		//System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(true, this.matJeu));
 		//System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(false, this.matJeu));
 		//System.out.println("le resultat : "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, nbCoupMax));
-		System.out.println("la case jouer:"+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 1)+"et sont poid est de "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 2).poid);
-		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 1).col);
+		System.out.println("la case jouer:"+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0)+"et sont poid est de "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 2).poid);
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
 		/*
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
