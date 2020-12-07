@@ -88,7 +88,7 @@ public class Heuristiques {
 				}
 				if (choix.poid == Noeud.MAX_POID) break;
 			}*/
-			choix=minMaxProfondeArbreRecherche(couPossible(matJeu), nbCoupMax,  max);
+		choix=minMaxProfondeArbreRecherche(couPossible(matJeu), nbCoupMax,  max);
 		// remont� les parents de choix sur profondeur niveau
 			
 		int profondeurAREmonter = choix.profondeurARemonter;
