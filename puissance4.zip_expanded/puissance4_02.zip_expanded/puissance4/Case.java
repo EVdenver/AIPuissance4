@@ -31,37 +31,43 @@ public class Case extends JPanel {
 		int nbCol = jeu.opts.getGameWidth();
 		int nbRow = jeu.opts.getGameHeight();
 		Case cc; 
-		if (ligne+1 <= nbRow && col-1 >= 0) {
+		if(ligne+1 < nbRow && col-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne+1) - 1) + ((col-1) - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;
 			}
-		}else if (col-1 >= 0) {
+		}
+		if (col-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * (ligne - 1) + ((col-1) - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;
 			}
-		}else if (ligne-1 >= 0 && col-1 >= 0) {
+		}
+		if (ligne-1 > 0 && col-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + ((col-1) - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;
 			}
-		}else if (ligne-1 >= 0) {
+		}
+		if (ligne-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + (col - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;
 			}
-		}else if (ligne-1 >= 0 && col+1 <= nbCol) {
+		}
+		if (ligne-1 > 0 && col+1 < nbCol) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + ((col+1) - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;
 			}
-		}else if (col+1 <= nbCol) {
+		}
+		if (col+1 < nbCol) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * (ligne - 1) + ((col+1) - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;
 			}
-		}else if (ligne+1 <= nbRow && col+1 <= nbCol) {
+		}
+		if (ligne+1 < nbRow && col+1 < nbCol) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne+1) - 1) + ((col+1) - 1));
 			if (cc.val == 0 || cc.val == jVal) {
 				res++;

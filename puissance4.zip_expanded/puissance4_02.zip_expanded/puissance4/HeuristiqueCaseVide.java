@@ -15,8 +15,10 @@ public class HeuristiqueCaseVide {
 		byte jVal = 1; // Variable contenant la valeur du joueur
 		if (joueur)
 			jVal = 2;
+		//on vide d'abord le tableau pour éviter d'avoir des cases en plus
+		casePossible.clear();
 		// On recherche toute les cases vides possible
-		for (int col = 0; col < j.matJeu[0].length; col++) {
+		for (int col = j.opts.getGameWidth(); col >= 1; col--) {
 			int ligne = j.searchLine(col);
 			if (ligne != -1) {
 				Case caseVide = (Case)j.plateau.pane.getComponent((j.opts.getGameWidth()) * (ligne - 1) + (col - 1));
@@ -25,15 +27,13 @@ public class HeuristiqueCaseVide {
 		}
 		//On parcours ensuite le tableau en supprimant élément par élément en fonction de notre heuristique et en choisissant à chaque étape soit le min soit le max
 		if (alpha) {
-			elagageAlpha();
+			return elagageAlpha();
 		}else {
-			elagageMinMax();
-		}
-		return casePossible.get(0).col;
-			
+			return elagageMinMax();
+		}	
 	}
 	
-	public void elagageMinMax() {
+	public int elagageMinMax() {
 		//La première boucle correspond à la boucle testant la suppression des éléments et ne s'arrêtent que lorsque notre tableau de case ne contient qu'un élément soit la case choisie par l'ordinateur.
 		//Chaque itération de cette boucle correspond à une strate d'un elagage en min/max, on changera donc la valeur du joueur min/max à chaque changement de strate.
 		//Le tableau dans son état initial correspond à la première strate
@@ -42,13 +42,19 @@ public class HeuristiqueCaseVide {
 		//Si la longueur n du tableau est impaire alors on comparera (n-1/2)-1 paire et un trinome
 		//Les strates suivantes seront donc forcément paire sauf la dernière qui ne sera pa straité vu qu'elle n'aura qu'un élément
 		//Ce cheminement, même si aucun arbre réel n'est crée simulera un parcours d'arbre n-aire
-		while (casePossible.size() != 1) {
+		while (casePossible.size() !=1) {
 			if (casePossible.size()%2 == 0) {
 				for (int i = 0; i < casePossible.size(); i++) {
+					if (j.joueurGagne(j.joueur, casePossible.get(i).ligne-1, casePossible.get(i).col-1)||j.joueurGagne(!j.joueur, casePossible.get(i).ligne-1, casePossible.get(i).col-1) ) {
+						return casePossible.get(i).col-1;
+					}
 					casePossible.remove(casePossible.get(i).compareCaseMinMax(casePossible.get(i+1), jMinMax));
 				}
 			}else {
 				for (int i = 0; i < casePossible.size(); i++) {
+					if (j.joueurGagne(j.joueur, casePossible.get(i).ligne-1, casePossible.get(i).col-1)||j.joueurGagne(!j.joueur, casePossible.get(i).ligne-1, casePossible.get(i).col-1) ) {
+						return casePossible.get(i).col-1;
+					}
 					if (i == casePossible.size()-3) {//Traitement du trinome si impaire(On fait juste 2x le traitement au lieu de 1 avant d'itérer)
 						casePossible.remove(casePossible.get(i).compareCaseMinMax(casePossible.get(i+1), jMinMax));
 					}
@@ -58,9 +64,12 @@ public class HeuristiqueCaseVide {
 			//On change de joueur avant la fin de chaque itération de la première boucle
 			jMinMax = !jMinMax;
 		}
+		return casePossible.get(0).col-1;
 	}
 	
-	public void elagageAlpha() {
-		
+	public int elagageAlpha() {
+		//Même que pour Min/Max sauf qu'une partie sera ignoré
+		//TODO
+		return 0;
 	}
 }

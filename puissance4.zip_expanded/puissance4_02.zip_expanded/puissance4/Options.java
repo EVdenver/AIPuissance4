@@ -52,9 +52,9 @@ public class Options {
 		this.heuristique1On = computerOn;
 		this.computerStarts = computerStarts;
 		this.alpha = alpha;
-		//jeu.deep = new Computer(diff); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
+		jeu.heuristique1 = new HeuristiqueCaseVide(jeu, alpha); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
 		if (computerStarts)
-			jeu.ordiJoue();
+			jeu.heuristique1Joue();
 	}
 	
 }

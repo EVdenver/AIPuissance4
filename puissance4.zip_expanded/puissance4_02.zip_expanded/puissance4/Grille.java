@@ -15,11 +15,11 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 	ImageIcon nou = new ImageIcon("nouv.gif");
 	JButton nouv = new JButton(nou);
 	
-	ImageIcon ope = new ImageIcon("open.gif");
+	/*ImageIcon ope = new ImageIcon("open.gif");
 	JButton open = new JButton(ope);
 	
 	ImageIcon savea = new ImageIcon("saveas.gif");
-	JButton saveas = new JButton(savea);
+	JButton saveas = new JButton(savea);*/
 	
 	ImageIcon und = new ImageIcon("undo.gif");
 	JButton undo = new JButton(und);
@@ -65,15 +65,15 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 	/** Adds the buttons in the toolbar and adds the ActionListeners to them*/	
 	public void makeToolBar() {
 		nouv.addActionListener(this);
-		open.addActionListener(this);
-		saveas.addActionListener(this);
+		//open.addActionListener(this);
+		//saveas.addActionListener(this);
 		undo.addActionListener(this);
 		//fermer.addActionListener(this);
 		comput.addActionListener(this);
 		
 		bar.add(nouv);
-		bar.add(open);
-		bar.add(saveas);
+		//bar.add(open);
+		//bar.add(saveas);
 		bar.add(undo);
 		//bar.add(fermer);
 		bar.add(comput);
@@ -132,7 +132,7 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 			Case c = (Case)this.pane.getComponent(0); // On prend par exemple la 1ère case pour récupérer le Jeu
 			c.jeu.undo();
 		}
-		else if (src == saveas) {
+		/*else if (src == saveas) {
 			Case c = (Case)this.pane.getComponent(0);
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showSaveDialog(this);
@@ -145,7 +145,7 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 				c.jeu.ouvrir(fc.getSelectedFile());
-		}
+		}*/
 		else if (src == nouv) {
 			Jeu.nouveauJeu();
 		}
@@ -156,7 +156,7 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 		}*/
 		else if (src == comput) {
 			Case c = (Case)this.pane.getComponent(0);
-			c.jeu.ordiJoue();
+			c.jeu.heuristique1Joue();
 		}
 	}
 	

@@ -9,7 +9,8 @@ public class Jeu {
 	boolean joueur;		// Indique le joueur en cours
 	int[] historique;	// Enregistre les colonnes jouées
 	Options opts;		// Une fenêtre d'options
-	Computer deep;	
+	//Computer deep;
+	HeuristiqueCaseVide heuristique1;
 	
 	public Jeu(boolean optTrue) {
 		if (optTrue)
@@ -249,8 +250,8 @@ public class Jeu {
 				nouveauJeu();
 		}
 		else {
-			if (opts.computerOn && joueur != opts.computerStarts)
-				this.ordiJoue();
+			if (opts.heuristique1On && joueur != opts.computerStarts)
+				this.heuristique1Joue();
 			
 		}
 			
@@ -292,7 +293,7 @@ public class Jeu {
 	}
 	
 	/** Asks the computer to play */	
-	public void ordiJoue() {
+	/*public void ordiJoue() {
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
 		deep.nbCoups = nbCoups;
@@ -309,6 +310,12 @@ public class Jeu {
 		
 		jouer(deep.ordiJoue(joueur));
 		
+	}*/
+	
+	public void heuristique1Joue() {
+		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
+		plateau.repaint();
+		jouer(heuristique1.ordiJoue(joueur));
 	}
 	
 	/** If network enabled, sends to the other user the move just played locally and waits for the other user to play
@@ -326,7 +333,7 @@ public class Jeu {
 	/** Saves the game
 	 * @param file file in which the game will be saved
 	 */	
-	public void enregistrer(File file) {
+	/*public void enregistrer(File file) {
 		try {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter out = new BufferedWriter(fw);
@@ -334,7 +341,7 @@ public class Jeu {
 			out.write(opts.getGameHeight() + " ");
 			out.write(opts.getGameWidth() + " ");
 			out.write(nbCoups + " ");
-			out.write(deep.p2 + " ");
+			//out.write(deep.p2 + " ");
 			
 			if (opts.computerOn)
 				out.write("1 ");
@@ -354,12 +361,12 @@ public class Jeu {
 		} catch (IOException e) {
 			
 		}
-	}
+	}*/
 	
 	/** Opens a game from a file
 	 * @param file file from which the game will be opened
 	 */	
-	public void ouvrir(File file) {
+	/*public void ouvrir(File file) {
 		try {
 			FileReader fr = new FileReader(file);
 			BufferedReader out = new BufferedReader(fr);
@@ -397,7 +404,7 @@ public class Jeu {
 		} catch (IOException e) {
 			
 		}
-	}
+	}*/
 	
 	/** Undo the last move */	
 	public void undo() {
