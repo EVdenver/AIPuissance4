@@ -4,9 +4,11 @@ public class HeuristiqueCaseVide {
 	private Jeu j;
 	private ArrayList<Case> casePossible = new ArrayList<Case>();
 	private boolean jMinMax = true; //booleen pour l'algo min max, true = min; false = max
+	private boolean alpha; //Pour la méthode d'elagage
 	
-	public HeuristiqueCaseVide(Jeu j) {
+	public HeuristiqueCaseVide(Jeu j,boolean alpha) {
 		this.j = j;
+		this.alpha = alpha;
 	}
 	
 	public int ordiJoue(boolean joueur) {
@@ -22,7 +24,11 @@ public class HeuristiqueCaseVide {
 			}
 		}
 		//On parcours ensuite le tableau en supprimant élément par élément en fonction de notre heuristique et en choisissant à chaque étape soit le min soit le max
-		elagageMinMax();
+		if (alpha) {
+			elagageAlpha();
+		}else {
+			elagageMinMax();
+		}
 		return casePossible.get(0).col;
 			
 	}
@@ -52,5 +58,9 @@ public class HeuristiqueCaseVide {
 			//On change de joueur avant la fin de chaque itération de la première boucle
 			jMinMax = !jMinMax;
 		}
+	}
+	
+	public void elagageAlpha() {
+		
 	}
 }
