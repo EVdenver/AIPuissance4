@@ -74,6 +74,7 @@ public class Case extends JPanel {
 	}
 	
 	public int calculerNb4pos() {
+		//System.out.println("jeu:"+jeu);
 		return this.calculerNb4pos(jeu.matJeu);
 		
 	}
@@ -110,7 +111,7 @@ public class Case extends JPanel {
 	
 	boolean stopadiagg=false;
 	boolean stopadiagd=false;
-	System.out.println("la case: "+ this);
+	//System.out.println("la case: "+ this);
 		for(int i=1; i<=3;i++) {
 								
 			// observe les case horizontal
@@ -207,11 +208,11 @@ public class Case extends JPanel {
 				stopadiagg=true;
 			}
 			
-			if(c.ligne+i<jeu.matJeu.length && c.col-i<jeu.matJeu[0].length && !stopadiagd) {
-				System.out.println("limite max des ligne:"+jeu.matJeu.length);
-				System.out.println("c.ligne+i-1:"+(c.ligne+i-1));
-				System.out.println("limite max des colones:"+jeu.matJeu[0].length);
-				System.out.println("c.col+i-1:"+ (c.col+i-1));// bug dans le depassement des colones
+			if(c.ligne+i<jeu.matJeu.length && c.col+i<jeu.matJeu[0].length && !stopadiagd) {
+				//System.out.println("limite max des ligne:"+jeu.matJeu.length);
+				//System.out.println("c.ligne+i-1:"+(c.ligne+i-1));
+				//System.out.println("limite max des colones:"+jeu.matJeu[0].length);
+				//System.out.println("c.col+i-1:"+ (c.col+i-1));// bugait dans le depassement des colones et ne donne pas les bon résultat (le resultat attendue -1)
 				if(jeu.matJeu[c.ligne+i-1][c.col+i-1]==0 ||jeu.matJeu[c.ligne+i-1][c.col+i-1]==jVal) {
 					nbadiag++;
 				}
@@ -254,11 +255,11 @@ public class Case extends JPanel {
 			nbd4p=nbd4p+(nbdiag-2);
 			
 		}
-		//System.out.println("nbhori:"+nbhori);
-		//System.out.println("nbverti:"+nbverti);
-		//System.out.println("nbadiag:"+nbadiag);
-		//System.out.println("nbdiag:"+nbdiag);
-		//System.out.println("resultat :"+nbd4p);
+		System.out.println("nbhori:"+nbhori);
+		System.out.println("nbverti:"+nbverti);
+		System.out.println("nbadiag:"+nbadiag);
+		System.out.println("nbdiag:"+nbdiag);
+		System.out.println("resultat nbd4p :"+nbd4p);
 		
 		return nbd4p;
 		

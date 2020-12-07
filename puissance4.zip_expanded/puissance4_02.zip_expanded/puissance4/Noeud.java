@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Noeud extends Case {
 	Noeud parent; 
 	ArrayList<Noeud> enfants;
-	public int profondeur;
+	public int profondeurARemonter;
 	int poid ; // plus un noeud à des possibilite de ligne4 importante, plus son poid est important
 	byte[][] matJeuSim; //si le noeud a une profondeur de zero, alors c'est le matJeu de Jeu. Sinon c'est un tableau virtuel simulant un jeu plus avancé
 	
@@ -14,7 +14,7 @@ public class Noeud extends Case {
 		super(ligne, col, a, jeu);
 		this.parent=parent;
 		this.enfants=enfants;
-		this.profondeur=profondeur;
+		this.profondeurARemonter=profondeur;
 		this.matJeuSim=matJeuSim;
 	}
 	
@@ -24,7 +24,20 @@ public class Noeud extends Case {
 		this.enfants=enfants;
 	}
 	
-			
+	public int comparePoid(Noeud N2) {
+		if(N2==null ) {
+			throw new NullPointerException() ;
+		}
+		if(this.poid>N2.poid) {
+			return 1;
+		}
+		else if(this.poid==N2.poid) {
+			return 0;
+		}
+		
+		return -1;
+		
+	}
 
 
 }

@@ -295,11 +295,17 @@ public class Jeu {
 	
 	/** Asks the computer to play */	
 	public void ordiJoue() {
-		System.out.println("HeuriMinMax au nombre de coup: " + nbCoups);
-		System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(true, this.matJeu));
-		System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(false, this.matJeu));
+		int nbCoupMax=this.matJeu.length*this.matJeu[0].length-nbCoups-2;
 		
-		
+		Heuristiques euri=new Heuristiques(this);
+		//System.out.println("Heuristique:"+euri);
+		//System.out.println("HeuriMinMax au nombre de coup: " + nbCoups);
+		//System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(true, this.matJeu));
+		//System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(false, this.matJeu));
+		//System.out.println("le resultat : "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, nbCoupMax));
+		System.out.println("la case jouer:"+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 1)+"et sont poid est de "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 2).poid);
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 1).col);
+		/*
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
 		deep.nbCoups = nbCoups;
@@ -315,7 +321,7 @@ public class Jeu {
 		}	
 		
 		jouer(deep.ordiJoue(joueur));
-		
+		*/
 	}
 	
 	/** If network enabled, sends to the other user the move just played locally and waits for the other user to play
