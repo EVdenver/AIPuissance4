@@ -159,7 +159,7 @@ public class Case extends JPanel {
 			else {
 				stopb=true;
 			}
-			if(c.ligne+i<jeu.matJeu.length &&!stoph) {
+			if(c.ligne+i<=jeu.matJeu.length &&!stoph) {
 				if(matJeuSim[c.ligne+i-1][c.col-1]==0||matJeuSim[c.ligne+i-1][c.col-1]==jVal) {
 					nbverti++;
 				}
@@ -257,9 +257,9 @@ public class Case extends JPanel {
 			
 		}
 		//System.out.println("nbhori:"+nbhori);
-		//System.out.println("nbverti:"+nbverti);
+		System.out.println("nbverti:"+nbverti);
 		//System.out.println("nbadiag:"+nbadiag);
-		System.out.println("nbdiag:"+nbdiag);
+		//System.out.println("nbdiag:"+nbdiag);
 		//System.out.println("resultat nbd4p :"+nbd4p);
 		
 		return nbd4p;
