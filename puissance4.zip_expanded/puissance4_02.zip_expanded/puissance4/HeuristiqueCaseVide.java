@@ -55,7 +55,7 @@ public class HeuristiqueCaseVide {
 			//On change de joueur avant la fin de chaque itération de la première boucle
 			jMinMax = !jMinMax;
 		}
-		return casePossible.get(0).col-1;
+		return casePossible.get(0).col;
 	}
 	
 	public int elagageAlpha(boolean joueur) {
@@ -67,16 +67,16 @@ public class HeuristiqueCaseVide {
 	public int filtrePair(boolean joueur) {
 		for (int i = 0; i < casePossible.size(); i++) {
 			if (testSiGagnante(casePossible.get(i),joueur)) {
-				return casePossible.get(i).col-1;
+				return casePossible.get(i).col;
 			}
 			if (testSiGagnante(casePossible.get(i+1), joueur)) {
-				return casePossible.get(i+1).col-1;
+				return casePossible.get(i+1).col;
 			}
 			if (testSiGagnante(casePossible.get(i), !joueur)) {
-				return casePossible.get(i).col-1;
+				return casePossible.get(i).col;
 			}
 			if (testSiGagnante(casePossible.get(i+1),!joueur)) {
-				return casePossible.get(i+1).col-1;
+				return casePossible.get(i+1).col;
 			}
 			casePossible.remove(casePossible.get(i).compareCaseMinMax(casePossible.get(i+1), jMinMax));
 		}
@@ -85,20 +85,32 @@ public class HeuristiqueCaseVide {
 	
 	public int filtreImpair(boolean joueur) {
 		for (int i = 0; i < casePossible.size(); i++) {
+			if (i == casePossible.size()-3) {//Traitement du trinome si impaire(On fait juste 2x le traitement au lieu de 1 avant d'itérer)
+				if (testSiGagnante(casePossible.get(i),joueur)) {
+					return casePossible.get(i).col;
+				}
+				if (testSiGagnante(casePossible.get(i+1), joueur)) {
+					return casePossible.get(i+1).col;
+				}
+				if (testSiGagnante(casePossible.get(i), !joueur)) {
+					return casePossible.get(i).col;
+				}
+				if (testSiGagnante(casePossible.get(i+1),!joueur)) {
+					return casePossible.get(i+1).col;
+				}
+				casePossible.remove(casePossible.get(i).compareCaseMinMax(casePossible.get(i+1), jMinMax));
+			}
 			if (testSiGagnante(casePossible.get(i),joueur)) {
-				return casePossible.get(i).col-1;
+				return casePossible.get(i).col;
 			}
 			if (testSiGagnante(casePossible.get(i+1), joueur)) {
-				return casePossible.get(i+1).col-1;
+				return casePossible.get(i+1).col;
 			}
 			if (testSiGagnante(casePossible.get(i), !joueur)) {
-				return casePossible.get(i).col-1;
+				return casePossible.get(i).col;
 			}
 			if (testSiGagnante(casePossible.get(i+1),!joueur)) {
-				return casePossible.get(i+1).col-1;
-			}
-			if (i == casePossible.size()-3) {//Traitement du trinome si impaire(On fait juste 2x le traitement au lieu de 1 avant d'itérer)
-				casePossible.remove(casePossible.get(i).compareCaseMinMax(casePossible.get(i+1), jMinMax));
+				return casePossible.get(i+1).col;
 			}
 			casePossible.remove(casePossible.get(i).compareCaseMinMax(casePossible.get(i+1), jMinMax));
 		}
