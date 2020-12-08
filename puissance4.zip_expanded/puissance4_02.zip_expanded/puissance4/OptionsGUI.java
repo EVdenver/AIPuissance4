@@ -54,9 +54,13 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		
 		// L'ordinateur joue ?
 		JPanel computerPane = new JPanel(new GridLayout(4, 1));
+		//Pour jouer avec l'heuristique 1
 		computerPane.add(computerHeuristique1);
+		//Pour jouer avec l'heuristique 1 avec élagage alpha(non fonctionnel)
 		computerPane.add(computerHeuristique1Alpha);
+		//Booleen pour savoir si l'heuristique commence
 		computerPane.add(computerStartsCheckBox);
+		computerHeuristique1Alpha.setEnabled(false);
 		
 		
 		computerHeuristique1.addActionListener(this);

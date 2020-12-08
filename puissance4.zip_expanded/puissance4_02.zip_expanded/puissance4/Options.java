@@ -1,10 +1,9 @@
 public class Options {
 	private int nbRow;			// Nombre de lignes
 	private int nbCol;			// Nombre de colonnes
-	boolean heuristique1On = false;
-	boolean alpha = false;
-	boolean computerOn = false;	// Ordinateur activé ou non
-	boolean computerStarts = false;
+	boolean heuristique1On = false; //Heuristique 1 activé ou non
+	boolean alpha = false; //Heuristique 1 en alpha activé ou non
+	boolean computerStarts = false; //Ordinateur commence ou non
 	Jeu jeu;
 	
 	public Options(Jeu j) {

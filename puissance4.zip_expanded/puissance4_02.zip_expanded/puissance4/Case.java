@@ -33,43 +33,43 @@ public class Case extends JPanel {
 		Case cc; 
 		if(ligne+1 < nbRow && col-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne+1) - 1) + ((col-1) - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
 		if (col-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * (ligne - 1) + ((col-1) - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
 		if (ligne-1 > 0 && col-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + ((col-1) - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
 		if (ligne-1 > 0) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + (col - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
 		if (ligne-1 > 0 && col+1 < nbCol) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne-1) - 1) + ((col+1) - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
 		if (col+1 < nbCol) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * (ligne - 1) + ((col+1) - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
 		if (ligne+1 < nbRow && col+1 < nbCol) {
 			cc = (Case)jeu.plateau.pane.getComponent((jeu.opts.getGameWidth()) * ((ligne+1) - 1) + ((col+1) - 1));
-			if (cc.val == 0 || cc.val == jVal) {
+			if (jeu.matJeu[cc.ligne-1][cc.col-1] == 0 || jeu.matJeu[cc.ligne-1][cc.col-1] == jVal) {
 				res++;
 			}
 		}
