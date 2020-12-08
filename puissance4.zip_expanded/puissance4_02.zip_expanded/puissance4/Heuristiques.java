@@ -119,6 +119,49 @@ public class Heuristiques {
 			Noeud choix=choixPossibles.get(0);// erreur finit par renvoyer un arraylist vide
 			choixPossibles.remove(0);
 			while(!choixPossibles.isEmpty()) {
+				
+				 byte jVal = 1; // Variable contenant la valeur du joueur,
+			        if (choix.jeu.joueur) {
+			            jVal = 2;
+			        }
+			        choix.jeu.matJeu[choix.ligne-1][choix.col-1]=jVal;
+			        if (choix.jeu.joueurGagne(choix.jeu.joueur, choix.ligne-1, choix.col-1)) {
+			        	choix.jeu.matJeu[choix.ligne-1][choix.col-1]=0;
+			            return choix;
+			        }
+			        choix.jeu.matJeu[choix.ligne-1][choix.col-1]=0;
+			        
+			        
+			        choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=jVal;
+			        if(choixPossibles.get(0).jeu.joueurGagne(choixPossibles.get(0).jeu.joueur, choixPossibles.get(0).ligne-1, choixPossibles.get(0).col-1)) {
+			        	choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=0;
+			        	return choixPossibles.get(0);
+			        }
+			        choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=0;
+			        
+			         jVal = 1; // Variable contenant la valeur du joueur,
+			        if (!choix.jeu.joueur) {
+			            jVal = 2;
+			        }
+			        
+			        choix.jeu.matJeu[choix.ligne-1][choix.col-1]=jVal;
+			        if (choix.jeu.joueurGagne(!choix.jeu.joueur, choix.ligne-1, choix.col-1)) {
+			        	choix.jeu.matJeu[choix.ligne-1][choix.col-1]=0;
+			            return choix;
+			        }
+			        choix.jeu.matJeu[choix.ligne-1][choix.col-1]=0;
+			        
+			        
+			        choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=jVal;
+			        if(choixPossibles.get(0).jeu.joueurGagne(!choixPossibles.get(0).jeu.joueur, choixPossibles.get(0).ligne-1, choixPossibles.get(0).col-1)) {
+			        	choixPossibles.get(0).jeu.matJeu[choix.ligne-1][choix.col-1]=0;
+			        	return choixPossibles.get(0);
+			        }
+			        choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=0;
+			        
+			        
+				
+				
 				choix=(max)?((choix).comparePoid(choixPossibles.get(0))>=0)?choix:choixPossibles.get(0) // attention, il faut adapter les m�thodes pour qu'elle calculent les choix possibles sur le matJeuSim contenu dans le Noeud et non le matJeu de Jeu
 						   :((choix).comparePoid(choixPossibles.get(0))<0)?choix:choixPossibles.get(0);
 				choixPossibles.remove(0);

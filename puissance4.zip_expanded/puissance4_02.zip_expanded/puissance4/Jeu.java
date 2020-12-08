@@ -252,8 +252,8 @@ public class Jeu {
 				nouveauJeu();
 		}
 		else {
-			if (opts.computerOn && joueur != opts.computerStarts)
-				this.ordiJoue();
+			if (opts.heuri2 && joueur != opts.computerStarts)
+				this.heuristique2Joue();
 			
 		}
 			
@@ -295,7 +295,7 @@ public class Jeu {
 	}
 	
 	/** Asks the computer to play */	
-	public void ordiJoue() {
+	/*public void ordiJoue() {
 		int nbCoupMax=this.matJeu.length*this.matJeu[0].length-nbCoups-2;
 		
 		Heuristiques euri=new Heuristiques(this);
@@ -307,11 +307,11 @@ public class Jeu {
 		System.out.println("la case jouer:"+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0)+"et sont poid est de "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 2).poid);
 		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
 		
-	}
+	}*/
 	public void heuristique2Joue() {
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
-		jouer(euri.HeuriMinMaxProfonde(true, matJeu, 0).col);
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
 	}
 	
 	

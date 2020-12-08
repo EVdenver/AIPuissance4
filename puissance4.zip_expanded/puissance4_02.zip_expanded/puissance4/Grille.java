@@ -136,15 +136,15 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 			Case c = (Case)this.pane.getComponent(0);
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showSaveDialog(this);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-				c.jeu.enregistrer(fc.getSelectedFile());
+			//if (returnVal == JFileChooser.APPROVE_OPTION)
+				//c.jeu.enregistrer(fc.getSelectedFile());
 		}
 		else if (src == open) {
 			Case c = (Case)this.pane.getComponent(0);
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showOpenDialog(this);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-				c.jeu.ouvrir(fc.getSelectedFile());
+			//if (returnVal == JFileChooser.APPROVE_OPTION)
+				//c.jeu.ouvrir(fc.getSelectedFile());
 		}
 		else if (src == nouv) {
 			Jeu.nouveauJeu();
@@ -156,7 +156,7 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 		}*/
 		else if (src == comput) {
 			Case c = (Case)this.pane.getComponent(0);
-			c.jeu.ordiJoue();
+			c.jeu.heuristique2Joue();
 		}
 	}
 	
