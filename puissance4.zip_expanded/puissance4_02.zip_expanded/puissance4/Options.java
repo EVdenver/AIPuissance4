@@ -1,10 +1,11 @@
 public class Options {
 	private int nbRow;			// Nombre de lignes
 	private int nbCol;			// Nombre de colonnes
-	boolean alpha = false;
-	boolean heuri2=false; // Heuristique 2 activée ou non
-	boolean computerOn = false;	// Ordinateur activé ou non
-	boolean computerStarts = false;
+
+	boolean heuristique1On = false; //Heuristique 1 activÃ© ou non
+	boolean alpha = false; //Heuristique 1 en alpha activÃ© ou non
+	boolean computerStarts = false; //Ordinateur commence ou non
+	boolean heuri2=false; // Heuristique 2 activÃ©e ou non
 	Jeu jeu;
 	
 	public Options(Jeu j) {
@@ -20,8 +21,8 @@ public class Options {
 	}
 	
 	
-	/** Règle les dimensions du jeu
-	 * @param initSize Définit si le plateau de jeu doit être initalisé avec la taille entrée
+	/** RÃ¨gle les dimensions du jeu
+	 * @param initSize DÃ©finit si le plateau de jeu doit Ãªtre initalisÃ© avec la taille entrÃ©e
 	 */
 	public void setSize(int nbRow, int nbCol, boolean initSize) {
 		this.nbRow = nbRow;
@@ -48,17 +49,19 @@ public class Options {
 		return nbRow;
 	}
 	
-	/*public void initComputer(boolean computerOn, boolean computerStarts, int diff) {
-		this.computerOn = computerOn;
+	public void initComputerHeuristique1(boolean computerOn, boolean computerStarts,boolean alpha) {
+		this.heuristique1On = computerOn;
 		this.computerStarts = computerStarts;
-		jeu.deep = new Computer(diff); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
+		this.alpha = alpha;
+		jeu.heuristique1 = new HeuristiqueCaseVide(jeu, alpha); // on crÃ©e tout le temps l'ordinateur, au cas oÃ¹ l'utilisateur clique sur Jouer...
 		if (computerStarts)
-			jeu.ordiJoue();
-	}*/
+			jeu.heuristique1Joue();
+	}
+  
 	public void initComputerHeuristique2(boolean computerOn, boolean computerStarts) {
 		this.heuri2 = computerOn;
 		this.computerStarts = computerStarts;
-		jeu.euri = new Heuristiques(jeu); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
+		jeu.euri = new Heuristiques(jeu); // on crÃ©e tout le temps l'ordinateur, au cas oÃ¹ l'utilisateur clique sur Jouer...
 		if (computerStarts)
 			jeu.heuristique2Joue();
 	}

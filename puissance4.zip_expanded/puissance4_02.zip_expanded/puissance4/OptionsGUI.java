@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 /**
  *
- * @author  Michaël Perrin 
+ * @author  MichaÃ«l Perrin 
  * @modifieur Vincent Marechal, Garnier Nicolas
  */
 
@@ -29,8 +29,10 @@ public class OptionsGUI extends JFrame implements ActionListener {
 	JTextField text2 = new JTextField("7", 2);
 	
 	JCheckBox computerHeuristique1 = new JCheckBox("Jouer contre l'heuristique 1", false);
+
 	JCheckBox computerHeuristique2 = new JCheckBox("Jouer contre l'heuristique 2", false);
 	//JCheckBox computerHeuristiquefight = new JCheckBox("Heuristique 1 contre l'heuristique 2", false);
+
 	JCheckBox computerHeuristique1Alpha = new JCheckBox("Jouer contre l'heuristique 1(alpha)", false);
 	JCheckBox computerStartsCheckBox = new JCheckBox("L'ordinateur commence", false);
 
@@ -57,21 +59,24 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		
 		// L'ordinateur joue ?
 		JPanel computerPane = new JPanel(new GridLayout(4, 1));
+
+		//Pour jouer avec l'heuristique 1
 		computerPane.add(computerHeuristique1);
-		computerPane.add(computerHeuristique2);
+		//Pour jouer avec l'heuristique 1 avec Ã©lagage alpha(non fonctionnel)
+		computerPane.add(computerHeuristique1Alpha);
+    computerPane.add(computerHeuristique2);
+		//Booleen pour savoir si l'heuristique commence
 		computerPane.add(computerStartsCheckBox);
 		computerHeuristique1Alpha.setEnabled(false);
 		
-		computerHeuristique1.addActionListener(this);
-		computerHeuristique2.addActionListener(this);
-		computerHeuristique1Alpha.addActionListener(this);
 		
+		computerHeuristique1.addActionListener(this);
+		computerHeuristique1Alpha.addActionListener(this);
+		computerHeuristique2.addActionListener(this);
 		
 		
 		buildConstraints(constraints, 0, 1, 2, 1, 0, 20);
 		gbl.setConstraints(computerPane, constraints);
-		
-		
 		
 		pane.add(computerPane);
 		
@@ -85,23 +90,23 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		setComputerHeuristique1OptionsEnabled(computerHeuristique1.isSelected());
 		setComputerHeuristiqueAlphaOptionsEnabled(computerHeuristique1Alpha.isSelected());
 		setComputerHeuristique2OptionsEnabled(computerHeuristique2.isSelected());
+
 		
 		setContentPane(pane);
 		
 		setVisible(true);
 
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		this.opts = opts;
 
 	}
 	
 
-	
 	public void buildConstraints (GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy) {
-		gbc.gridx = gx;			// Coordonnées dans la "grille"
+		gbc.gridx = gx;			// CoordonnÃ©es dans la "grille"
 		gbc.gridy = gy;
-		gbc.gridwidth = gw;		// Nombre de cellules sur lesquelles s'étend l'objet
+		gbc.gridwidth = gw;		// Nombre de cellules sur lesquelles s'Ã©tend l'objet
 		gbc.gridheight = gh; 
 		gbc.weightx = wx;		// "Largeur", en proportion
 		gbc.weighty = wy;
@@ -120,17 +125,20 @@ public class OptionsGUI extends JFrame implements ActionListener {
 				
 				setVisible(false);
 				
-				//if(computerHeuristique2.isSelected()) {
+
+				opts.initComputerHeuristique1(computerHeuristique1Alpha.isSelected()?computerHeuristique1Alpha.isSelected():computerHeuristique1.isSelected(), computerStartsCheckBox.isSelected(),computerHeuristique1Alpha.isSelected());
 				opts.initComputerHeuristique2(computerHeuristique2.isSelected(), computerStartsCheckBox.isSelected());	
-				//}
-				
 				
 			} catch (NumberFormatException e) {
-				Saisie.erreurMsgOk("Erreur : le nombre de ligne et le nombre de colonnes doivent être des entiers", "Erreur");
+				Saisie.erreurMsgOk("Erreur : le nombre de ligne et le nombre de colonnes doivent Ãªtre des entiers", "Erreur");
 			}
 			
 		}
 		
+
+		else if (src == computerHeuristique1)
+			setComputerHeuristique1OptionsEnabled(computerHeuristique1.isSelected()); // disables or enables the computer options
+
 		else if (src == computerHeuristique2)
 			setComputerHeuristique2OptionsEnabled(computerHeuristique2.isSelected()); // disables or enables the computer options
 		
@@ -141,7 +149,12 @@ public class OptionsGUI extends JFrame implements ActionListener {
 	 */	
 	public void setComputerHeuristique2OptionsEnabled(boolean b) {
 		computerStartsCheckBox.setEnabled(b);
-		computerHeuristique1.setEnabled(false);
+		computerHeuristique1.setEnabled(!b);
+	}
+  
+  	public void setComputerHeuristique1OptionsEnabled(boolean b) {
+		computerStartsCheckBox.setEnabled(b);
+		computerHeuristique2.setEnabled(!b);
 	}
 	
 }
