@@ -1,6 +1,11 @@
 public class Options {
 	private int nbRow;			// Nombre de lignes
 	private int nbCol;			// Nombre de colonnes
+
+	boolean heuristique1On = false; //Heuristique 1 activ√© ou non
+	boolean alpha = false; //Heuristique 1 en alpha activ√© ou non
+	boolean computerStarts = false; //Ordinateur commence ou non
+	boolean heuristique2On=false; // Heuristique 2 activ√©e ou non
 	Jeu jeu;
 	
 	public Options(Jeu j) {
@@ -16,8 +21,8 @@ public class Options {
 	}
 	
 	
-	/** RËgle les dimensions du jeu
-	 * @param initSize DÈfinit si le plateau de jeu doit Ítre initalisÈ avec la taille entrÈe
+	/** R√®gle les dimensions du jeu
+	 * @param initSize D√©finit si le plateau de jeu doit √™tre initalis√© avec la taille entr√©e
 	 */
 	public void setSize(int nbRow, int nbCol, boolean initSize) {
 		this.nbRow = nbRow;
@@ -44,47 +49,21 @@ public class Options {
 		return nbRow;
 	}
 	
-	/*public void initComputer(boolean computerOn, boolean computerStarts, int diff) {
-		this.computerOn = computerOn;
+	public void initComputerHeuristique1(boolean computerOn, boolean computerStarts,boolean alpha) {
+		this.heuristique1On = computerOn;
 		this.computerStarts = computerStarts;
-		jeu.deep = new Computer(diff); // on crÈe tout le temps l'ordinateur, au cas o˘ l'utilisateur clique sur Jouer...
+		this.alpha = alpha;
+		jeu.heuristique1 = new HeuristiqueCaseVide(jeu, alpha); // on cr√©e tout le temps l'ordinateur, au cas o√π l'utilisateur clique sur Jouer...
 		if (computerStarts)
-			jeu.ordiJoue();
-	}*/
-	
-	/*public void initNetwork(boolean serveur, String ip) {
-		try {
-			netOn = true;
-			this.serveur = serveur;
-			if (!serveur) {
-				sc = new Client(ip, jeu);
-				
-				// From here, the server will have sent the server game size, here is the code to receive the information
-				String entree1 = null;
-				while(entree1 == null)
-					entree1 = sc.in.readLine();
-				
-				String entree2 = null;
-				while(entree2 == null)
-					entree2 = sc.in.readLine();
-				
-				int nbRow = Integer.parseInt(entree1);
-				int nbCol = Integer.parseInt(entree2);
-				
-				setSize(nbRow, nbCol, true);
-				
-				//jeu.lock = true;
-				NetworkThread nt = new NetworkThread(sc, jeu);
-				nt.start();
-				
-			}
-			else {
-				sc = new Serveur(jeu);
-			}
-		}
-		catch(Exception e) {
-			System.out.println("Erreur lors de crÈation du client ou du serveur");
-		}
-	}*/
+			jeu.heuristique1Joue();
+	}
+  
+	public void initComputerHeuristique2(boolean computerOn, boolean computerStarts) {
+		this.heuristique2On = computerOn;
+		this.computerStarts = computerStarts;
+		jeu.heuristique2 = new Heuristiques(jeu); // on cr√©e tout le temps l'ordinateur, au cas o√π l'utilisateur clique sur Jouer...
+		if (computerStarts)
+			jeu.heuristique2Joue();
+	}
 	
 }

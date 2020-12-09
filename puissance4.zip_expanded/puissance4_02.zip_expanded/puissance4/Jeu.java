@@ -1,14 +1,18 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Jeu {
 	Grille plateau;		// Juste le graphisme
 	byte[][] matJeu;	// La matrice qui contiendra la partie
-	int nbCoups;		// Contient le nombre de coups jouÈs (dÈtection partie nulle)
-	boolean enCours;	// Indique si la partie est en cours ou terminÈe
+	int nbCoups;		// Contient le nombre de coups jou√©s (d√©tection partie nulle)
+	boolean enCours;	// Indique si la partie est en cours ou termin√©e
 	boolean joueur;		// Indique le joueur en cours
-	int[] historique;	// Enregistre les colonnes jouÈes
-	Options opts;		// Une fenÍtre d'options	
+	int[] historique;	// Enregistre les colonnes jou√©es
+	Options opts;		// Une fen√™tre d'options
+	HeuristiqueCaseVide heuristique1;
+	static Heuristiques heuristique2;
 	
 	public Jeu(boolean optTrue) {
 		if (optTrue)
@@ -23,7 +27,7 @@ public class Jeu {
 	 * @param colM col line just played by joueur
 	 * @return true if there is a winning position, false if not
 	 */	
-	public boolean joueurGagne(boolean joueur, int ligneM, int colM) {  // le M majuscule indique que c'est une ligne correspondant ‡ la position dans la matrice
+	public boolean joueurGagne(boolean joueur, int ligneM, int colM) {  // le M majuscule indique que c'est une ligne correspondant √† la position dans la matrice
 		byte jVal = 1; // Variable contenant la valeur du joueur, un byte suffit
 		if (joueur)
 			jVal = 2;
@@ -41,7 +45,7 @@ public class Jeu {
 	 * @return true if there is a horizontal winning position, false if not
 	 */	
 	public boolean horiGagne(byte jVal, int ligneM, int colM) {
-		int nbAlign = 0;  // nombre de pions qui sont alignÈs les uns ‡ la suite des autres
+		int nbAlign = 0;  // nombre de pions qui sont align√©s les uns √† la suite des autres
 		int colMin = colM - 3;
 		if (colMin <= 0)
 			colMin = 0;
@@ -69,7 +73,7 @@ public class Jeu {
 	 * @return true if there is a vertical winning position, false if not
 	 */	
 	public boolean vertGagne(byte jVal, int ligneM, int colM) {
-		int nbAlign = 0;  // nombre de pions qui sont alignÈs les uns ‡ la suite des autres
+		int nbAlign = 0;  // nombre de pions qui sont align√©s les uns √† la suite des autres
 		int ligneMin = ligneM - 3;
 		if (ligneMin <= 0)
 			ligneMin = 0;
@@ -105,17 +109,17 @@ public class Jeu {
 		int colMax = colM;
 		
 		int compteur = 0;
-		while (ligneMax + 1 < opts.getGameHeight() && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en bas ‡ droite du plateau
+		while (ligneMax + 1 < opts.getGameHeight() && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en bas √† droite du plateau
 			ligneMax++;
 			colMax++;
-			compteur++;   // on ne va que 3 cases en bas ‡ droite au maximum
+			compteur++;   // on ne va que 3 cases en bas √† droite au maximum
 		}
 		
 		compteur = 0;
-		while (ligneMin >= 1 && colMin >= 1 && compteur <= 2) {  //On va en haut ‡ gauche du plateau de jeu
+		while (ligneMin >= 1 && colMin >= 1 && compteur <= 2) {  //On va en haut √† gauche du plateau de jeu
 			ligneMin--;
 			colMin--;
-			compteur++;   // on ne va que 3 cases en bas ‡ droite au maximum
+			compteur++;   // on ne va que 3 cases en bas √† droite au maximum
 		}
 		
 		ligneM = ligneMin;
@@ -151,17 +155,17 @@ public class Jeu {
 		int colMax = colM;
 		
 		int compteur = 0;
-		while (ligneMax + 1 < opts.getGameHeight() && colMin >= 1 && compteur <= 2) {  //On va en bas ‡ gauche du plateau
+		while (ligneMax + 1 < opts.getGameHeight() && colMin >= 1 && compteur <= 2) {  //On va en bas √† gauche du plateau
 			ligneMax++;
 			colMin--;
-			compteur++;   // on ne va que 3 cases en bas ‡ droite au maximum
+			compteur++;   // on ne va que 3 cases en bas √† droite au maximum
 		}
 		
 		compteur = 0;
-		while (ligneMin >= 1 && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en haut ‡ droite du plateau de jeu
+		while (ligneMin >= 1 && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en haut √† droite du plateau de jeu
 			ligneMin--;
 			colMax++;
-			compteur++;   // on ne va que 3 cases en bas ‡ droite au maximum
+			compteur++;   // on ne va que 3 cases en bas √† droite au maximum
 		}
 		
 		ligneM = ligneMax;
@@ -187,8 +191,8 @@ public class Jeu {
 	 * @param col col to be played
 	 */	
 	public void jouer(int col) {
-		boolean coupValable;	// Contient la validitÈ du coup que le jouer veut jouer
-		int ligne = 0;		// L‡ o˘ sera stockÈe la ligne jouÈe, le 0 sert pour le compilateur
+		boolean coupValable;	// Contient la validit√© du coup que le jouer veut jouer
+		int ligne = 0;		// L√† o√π sera stock√©e la ligne jou√©e, le 0 sert pour le compilateur
 		
 		coupValable = false;
 			
@@ -208,18 +212,18 @@ public class Jeu {
 	public void validerCoup(int ligne, int col) {
 		
 		if (!joueur) {
-			this.matJeu[ligne - 1][col - 1] = 1;  // 1 dÈsigne dans la matrice un pion du joueur "false"
+			this.matJeu[ligne - 1][col - 1] = 1;  // 1 d√©signe dans la matrice un pion du joueur "false"
 			Case cc = (Case)plateau.pane.getComponent((opts.getGameWidth()) * (ligne - 1) + (col - 1));
 			cc.modifierVal(1);
 		} else {
-			this.matJeu[ligne - 1][col - 1] = 2;  // 2 dÈsigne dans la matrice un pion du joueur "true"
+			this.matJeu[ligne - 1][col - 1] = 2;  // 2 d√©signe dans la matrice un pion du joueur "true"
 			Case cc = (Case)plateau.pane.getComponent((opts.getGameWidth()) * (ligne - 1) + (col - 1));
 			cc.modifierVal(2);
 		}
 
 		boolean gagne = this.joueurGagne(joueur, ligne - 1, col - 1);
 		if (gagne) {
-			enCours = false; // La partie est terminÈe
+			enCours = false; // La partie est termin√©e
 			if (!joueur)
 				Saisie.infoMsgOk("Le joueur 1 a gagne", "Bravo");
 			else
@@ -229,7 +233,7 @@ public class Jeu {
 		nbCoups++;  // On sous-entend les this
 		if (nbCoups >= opts.getGameHeight() * opts.getGameWidth() && !gagne) {
 			Saisie.infoMsgOk("Aucun des 2 joueurs n'a su gagner... : partie nulle", "Partie nulle");
-			enCours = false;  // La partie est terminÈe
+			enCours = false;  // La partie est termin√©e
 		}
 		
 		historique[nbCoups - 1] = col;
@@ -246,10 +250,18 @@ public class Jeu {
 			int ok = Saisie.question_ouinon("La partie est terminee, voulez-vous en faire une nouvelle ?", "Nouvelle partie");
 			if (ok == 0)
 				nouveauJeu();
-		}		
+		}
+		else {
+			if (opts.heuristique1On && joueur != opts.computerStarts)
+				this.heuristique1Joue();
+			if (opts.heuri2 && joueur != opts.computerStarts)
+				this.heuristique2Joue();			
+		}
+			
+				
 	}
 	
-	// MÈthode testant la validitÈ d'un coup
+	// M√©thode testant la validit√© d'un coup
 	/** Verifies if you are allowed to play the chosen cell
 	 * @param ligne row to be verified
 	 * @param col col to be verified
@@ -263,14 +275,14 @@ public class Jeu {
 		}
 		
 		if (!enCours) {
-			Saisie.erreurMsgOk("La partie est terminÈe, vous ne pouvez plus jouer", "Erreur : partie terminÈe");
+			Saisie.erreurMsgOk("La partie est termin√©e, vous ne pouvez plus jouer", "Erreur : partie termin√©e");
 			return false;
 		}
 		
 		return true;
 	}
 	
-	// MÈthode cherchant la 1Ëre ligne jouable d'une colonne (gravitation...)
+	// M√©thode cherchant la 1√®re ligne jouable d'une colonne (gravitation...)
 	/** Search the row to be played for a given col (gravity law...)
 	 * @param col col for which the method searches the line
 	 * @return Number of the line corresponding to the col, -1 if the col is full
@@ -280,72 +292,27 @@ public class Jeu {
 			if (matJeu[i - 1][col - 1] == 0)
 				return i;
 		}
-		return -1; // Aucune ligne n'a ÈtÈ trouvÈe : la colonne est remplie
+		return -1; // Aucune ligne n'a √©t√© trouv√©e : la colonne est remplie
 	}
 	
+	
+	public void heuristique1Joue() {
+		plateau.statusBar.setText("L'ordinateur r√©fl√©chit : patientez");
+		plateau.repaint();
+		jouer(heuristique1.ordiJoue(joueur));
+	}
+
+	public void heuristique2Joue() {
+		plateau.statusBar.setText("L'ordinateur r√©fl√©chit : patientez");
+		plateau.repaint();
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
+	}
 	
 	/** Makes a new game */	
 	public static void nouveauJeu() {
 		Jeu j = new Jeu(true);
 	}
 	
-	/** Saves the game
-	 * @param file file in which the game will be saved
-	 */	
-	public void enregistrer(File file) {
-		try {
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter out = new BufferedWriter(fw);
-			out.write("Puissance 4  Kariboo Mikl\n");  // En-tÍte de fichier
-			out.write(opts.getGameHeight() + " ");
-			out.write(opts.getGameWidth() + " ");
-			out.write(nbCoups + " ");
-			
-			out.write("0 ");
-			
-			out.write("0 \n");
-			
-			for (int i = 0; i < nbCoups; i++)
-				out.write(historique[i] + " ");
-			
-			out.close();
-		} catch (IOException e) {
-			
-		}
-	}
-	
-	/** Opens a game from a file
-	 * @param file file from which the game will be opened
-	 */	
-	public void ouvrir(File file) {
-		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader out = new BufferedReader(fr);
-			String line = out.readLine();
-			if (line.equals("Puissance 4  Kariboo Mikl")) {  // Test de validitÈ de fichier
-				line = out.readLine();
-				StringTokenizer s = new StringTokenizer(line);
-				int nbR = Integer.parseInt(s.nextToken());
-				int nbC = Integer.parseInt(s.nextToken());
-				int nbCou = Integer.parseInt(s.nextToken());
-
-				line = out.readLine();
-				out.close();
-				s = new StringTokenizer(line);
-
-				Jeu j = new Jeu(false);
-				j.opts = new Options(nbR, nbC, j);
-
-				for (int i = 0; i < nbCou; i++)
-					j.jouer(Integer.parseInt(s.nextToken()));
-			}
-			else
-				Saisie.erreurMsgOk("Le fichier que vous tentez d'ouvrir n'est pas un fichier de Puissance 4 valide.", "Access violation error ;o)");
-			
-		} catch (IOException e) {
-			
-		}
-	}
 	
 	/** Undo the last move */	
 	public void undo() {
