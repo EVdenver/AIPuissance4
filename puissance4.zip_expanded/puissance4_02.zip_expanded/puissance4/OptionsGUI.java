@@ -82,9 +82,9 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		gbl.setConstraints(ok, constraints);
 		pane.add(ok);
 		
-		setComputerOptionsEnabled(computerHeuristique1.isSelected());
-		setComputerOptionsEnabled(computerHeuristique1Alpha.isSelected());
-		setComputerOptionsEnabled(computerHeuristique2.isSelected());
+		setComputerHeuristique1OptionsEnabled(computerHeuristique1.isSelected());
+		setComputerHeuristiqueAlphaOptionsEnabled(computerHeuristique1Alpha.isSelected());
+		setComputerHeuristique2OptionsEnabled(computerHeuristique2.isSelected());
 		
 		setContentPane(pane);
 		
@@ -123,7 +123,7 @@ public class OptionsGUI extends JFrame implements ActionListener {
 				//if(computerHeuristique2.isSelected()) {
 				opts.initComputerHeuristique2(computerHeuristique2.isSelected(), computerStartsCheckBox.isSelected());	
 				//}
-				computerHeuristique1.setEnabled(false);
+				
 				
 			} catch (NumberFormatException e) {
 				Saisie.erreurMsgOk("Erreur : le nombre de ligne et le nombre de colonnes doivent être des entiers", "Erreur");
@@ -132,16 +132,16 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		}
 		
 		else if (src == computerHeuristique2)
-			setComputerOptionsEnabled(computerHeuristique2.isSelected()); // disables or enables the computer options
+			setComputerHeuristique2OptionsEnabled(computerHeuristique2.isSelected()); // disables or enables the computer options
 		
 	}
 	
 	/** Makes computer options enabled or not whether the user enabled the network option or not
 	 * @param b if true, makes computer options available (enabled), if false makes them disabled
 	 */	
-	public void setComputerOptionsEnabled(boolean b) {
+	public void setComputerHeuristique2OptionsEnabled(boolean b) {
 		computerStartsCheckBox.setEnabled(b);
-		
+		computerHeuristique1.setEnabled(false);
 	}
 	
 }
