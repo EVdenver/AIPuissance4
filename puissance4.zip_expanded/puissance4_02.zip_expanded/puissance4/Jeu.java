@@ -254,7 +254,7 @@ public class Jeu {
 		else {
 			if (opts.heuristique1On && joueur != opts.computerStarts)
 				this.heuristique1Joue();
-			if (opts.heuri2 && joueur != opts.computerStarts)
+			if (opts.heuristique2On && joueur != opts.computerStarts)
 				this.heuristique2Joue();			
 		}
 			
