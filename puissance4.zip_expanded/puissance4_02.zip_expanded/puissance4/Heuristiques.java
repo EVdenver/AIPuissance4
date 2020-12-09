@@ -7,12 +7,7 @@ public class Heuristiques {
 	//private static Jeu jeu;
 	private static final int PRONFONDEUR_MAX=5;
 
-
-
 	public Heuristiques(Jeu jeu) {
-		//this.jeu=jeu;
-		
-		
 		Noeud.jeu=jeu; // tout les noeud concerneront ce jeu
 		Heuristiques.nbRow = jeu.matJeu.length;
 	}
@@ -23,11 +18,9 @@ public class Heuristiques {
 		
 		for(int i=1;i<=matJeuSim[0].length;i++)// commence a 1 parsque dans la methode searchLine sa va de 1 a length
 		{	
-			//System.out.println("l="+searchLine(i,matJeuSim));
 			int l=searchLine(i,matJeuSim);
 			if(l!=-1) {
 			Noeud n= new Noeud(l,i,0,null,new ArrayList<Noeud>(),0,matJeuSim);
-			//System.out.println("n="+n);
 			resultat.add(n);
 			}
 		}
@@ -39,7 +32,6 @@ public class Heuristiques {
 	static public Noeud HeuriMinMax(boolean max, byte[][] matJeu) {
 		
 		ArrayList<Noeud> couPossible=couPossible(matJeu);
-		//System.out.println(couPossible);
 		if(couPossible.isEmpty()) return null;
 		Noeud choix=couPossible.get(0);
 		couPossible.remove(0);
@@ -58,10 +50,8 @@ public class Heuristiques {
 	static public int HeuriBloqueur(Jeu jeu) {
 		// 1 : trouver tout les choix possible de jeu
 		// 2 : pour chacun de ses choix possible evaluer le nombre de possiblit� de du meilleur coup qe peut faire l'adversaire ( est-qu'il peut jouer un coup a 3 possibilit� � 4 possibilit�)
-		// 3 : choissir le coup pour lequel de possibilit� du meilleur coup adverse sera le plus faible
-
+		// 3 : choisir le coup pour lequel de possibilit� du meilleur coup adverse sera le plus faible
 		return 0;
-
 	}
 
 
@@ -174,9 +164,6 @@ public class Heuristiques {
 		else{
 			for (Noeud noeud : choixPossibles) { // pour chaque noeud de ce niveau de profondeur
 				byte[][] matJeuSimSuivant = cloneByte(noeud.matJeuSim);  // on clone le tableau de jeu
-				
-				
-				
 				if(noeud.jeu.joueur) {
 					if(profondeur%2==0) {
 						matJeuSimSuivant[noeud.ligne-1][noeud.col-1]=(byte)2; //  et on joue la case correspondante joueur.jVal
@@ -217,9 +204,6 @@ public class Heuristiques {
 		}
 		System.out.println("profondeur :" +profondeur);
 		System.out.println("nombre de nouveau choix:" + nouveauChoixPossibles.size());
-		/*Scanner sc= new Scanner(System.in);
-		System.out.println("passez au suivant");
-		sc.nextLine();*/
 		return minMaxProfondeArbreRecherche(nouveauChoixPossibles,  profondeur-1,  max);	// on fait une recherche sur les choix de la nouvelle couche en pr�cisant que la profonder � �voluer
 	}
 

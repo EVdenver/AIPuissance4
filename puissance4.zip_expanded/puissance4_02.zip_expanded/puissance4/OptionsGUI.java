@@ -88,7 +88,7 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		pane.add(ok);
 		
 		setComputerHeuristique1OptionsEnabled(computerHeuristique1.isSelected());
-		setComputerHeuristiqueAlphaOptionsEnabled(computerHeuristique1Alpha.isSelected());
+		//setComputerHeuristiqueAlphaOptionsEnabled(computerHeuristique1Alpha.isSelected());
 		setComputerHeuristique2OptionsEnabled(computerHeuristique2.isSelected());
 
 		
@@ -125,9 +125,14 @@ public class OptionsGUI extends JFrame implements ActionListener {
 				
 				setVisible(false);
 				
-
-				opts.initComputerHeuristique1(computerHeuristique1Alpha.isSelected()?computerHeuristique1Alpha.isSelected():computerHeuristique1.isSelected(), computerStartsCheckBox.isSelected(),computerHeuristique1Alpha.isSelected());
-				opts.initComputerHeuristique2(computerHeuristique2.isSelected(), computerStartsCheckBox.isSelected());	
+				if (computerHeuristique1.isSelected()) {
+					opts.initComputerHeuristique1(computerHeuristique1Alpha.isSelected()?computerHeuristique1Alpha.isSelected():computerHeuristique1.isSelected(), computerStartsCheckBox.isSelected(),computerHeuristique1Alpha.isSelected());
+				}
+				if (computerHeuristique2.isSelected()) {
+					opts.initComputerHeuristique2(computerHeuristique2.isSelected(), computerStartsCheckBox.isSelected());	
+				}
+				
+				
 				
 			} catch (NumberFormatException e) {
 				Saisie.erreurMsgOk("Erreur : le nombre de ligne et le nombre de colonnes doivent être des entiers", "Erreur");

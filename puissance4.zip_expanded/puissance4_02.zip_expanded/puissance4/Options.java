@@ -5,7 +5,7 @@ public class Options {
 	boolean heuristique1On = false; //Heuristique 1 activé ou non
 	boolean alpha = false; //Heuristique 1 en alpha activé ou non
 	boolean computerStarts = false; //Ordinateur commence ou non
-	boolean heuri2=false; // Heuristique 2 activée ou non
+	boolean heuristique2On=false; // Heuristique 2 activée ou non
 	Jeu jeu;
 	
 	public Options(Jeu j) {
@@ -59,9 +59,9 @@ public class Options {
 	}
   
 	public void initComputerHeuristique2(boolean computerOn, boolean computerStarts) {
-		this.heuri2 = computerOn;
+		this.heuristique2On = computerOn;
 		this.computerStarts = computerStarts;
-		jeu.euri = new Heuristiques(jeu); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
+		jeu.heuristique2 = new Heuristiques(jeu); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
 		if (computerStarts)
 			jeu.heuristique2Joue();
 	}

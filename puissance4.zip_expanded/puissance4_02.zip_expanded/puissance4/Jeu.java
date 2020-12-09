@@ -12,7 +12,7 @@ public class Jeu {
 	int[] historique;	// Enregistre les colonnes jouées
 	Options opts;		// Une fenêtre d'options
 	HeuristiqueCaseVide heuristique1;
-	static Heuristiques euri;
+	static Heuristiques heuristique2;
 	
 	public Jeu(boolean optTrue) {
 		if (optTrue)
@@ -300,6 +300,7 @@ public class Jeu {
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
 		jouer(heuristique1.ordiJoue(joueur));
+	}
 
 	public void heuristique2Joue() {
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
@@ -312,81 +313,6 @@ public class Jeu {
 		Jeu j = new Jeu(true);
 	}
 	
-	/** Saves the game
-	 * @param file file in which the game will be saved
-	 */	
-	/*public void enregistrer(File file) {
-		try {
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter out = new BufferedWriter(fw);
-			out.write("Puissance 4  Kariboo Mikl\n");  // En-tête de fichier
-			out.write(opts.getGameHeight() + " ");
-			out.write(opts.getGameWidth() + " ");
-			out.write(nbCoups + " ");
-			//out.write(deep.p2 + " ");
-			
-			if (opts.computerOn)
-				out.write("1 ");
-			else
-				out.write("0 ");
-			
-			if (opts.computerStarts)
-				out.write("1 \n");
-			else
-				out.write("0 \n");
-			
-			
-			for (int i = 0; i < nbCoups; i++)
-				out.write(historique[i] + " ");
-			
-			out.close();
-		} catch (IOException e) {
-			
-		}
-	}*/
-	
-	/** Opens a game from a file
-	 * @param file file from which the game will be opened
-	 */	
-	/*public void ouvrir(File file) {
-		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader out = new BufferedReader(fr);
-			String line = out.readLine();
-			if (line.equals("Puissance 4  Kariboo Mikl")) {  // Test de validité de fichier
-				line = out.readLine();
-				StringTokenizer s = new StringTokenizer(line);
-				int nbR = Integer.parseInt(s.nextToken());
-				int nbC = Integer.parseInt(s.nextToken());
-				int nbCou = Integer.parseInt(s.nextToken());
-				int difficult = Integer.parseInt(s.nextToken());
-				int computerO = Integer.parseInt(s.nextToken());
-				int computerStart = Integer.parseInt(s.nextToken());
-
-				line = out.readLine();
-				out.close();
-				s = new StringTokenizer(line);
-
-				Jeu j = new Jeu(false);
-				j.opts = new Options(nbR, nbC, j);
-				j.deep = new Computer(difficult);
-
-				for (int i = 0; i < nbCou; i++)
-					j.jouer(Integer.parseInt(s.nextToken()));
-
-				// On charge l'ordinateur ici, après que la partie ait été chargée, pour éviter des pbs...
-				if (computerO == 1)
-					j.opts.computerOn = true;
-				if (computerStart == 1)
-					j.opts.computerStarts = true;
-			}
-			else
-				Saisie.erreurMsgOk("Le fichier que vous tentez d'ouvrir n'est pas un fichier de Puissance 4 valide.", "Access violation error ;o)");
-			
-		} catch (IOException e) {
-			
-		}
-	}*/
 	
 	/** Undo the last move */	
 	public void undo() {

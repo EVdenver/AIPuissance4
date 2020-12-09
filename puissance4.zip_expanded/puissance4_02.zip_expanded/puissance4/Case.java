@@ -204,10 +204,6 @@ public class Case extends JPanel {
 			}
 			
 			// verifie les cases a droite
-			
-			
-			
-			
 			if(c.col+i<=matJeuSim[0].length && !stopd) {
 				if(matJeuSim[c.ligne-1][c.col+i-1]==0 || matJeuSim[c.ligne-1][c.col+i-1]==jVal) {
 					nbhori++;
@@ -283,10 +279,6 @@ public class Case extends JPanel {
 			}
 			
 			if(c.ligne+i<=jeu.matJeu.length && c.col+i<=jeu.matJeu[0].length && !stopadiagd) {
-				//System.out.println("limite max des ligne:"+jeu.matJeu.length);
-				//System.out.println("c.ligne+i-1:"+(c.ligne+i-1));
-				//System.out.println("limite max des colones:"+jeu.matJeu[0].length);
-				//System.out.println("c.col+i-1:"+ (c.col+i-1));// bugait dans le depassement des colones et ne donne pas les bon résultat (le resultat attendue -1)
 				if(jeu.matJeu[c.ligne+i-1][c.col+i-1]==0 ||jeu.matJeu[c.ligne+i-1][c.col+i-1]==jVal) {
 					nbadiag++;
 				}
@@ -329,11 +321,6 @@ public class Case extends JPanel {
 			nbd4p=nbd4p+(nbdiag-2);
 			
 		}
-		//System.out.println("nbhori:"+nbhori);
-		System.out.println("nbverti:"+nbverti);
-		//System.out.println("nbadiag:"+nbadiag);
-		//System.out.println("nbdiag:"+nbdiag);
-		//System.out.println("resultat nbd4p :"+nbd4p);
 		
 		return nbd4p;
 		
