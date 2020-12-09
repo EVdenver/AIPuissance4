@@ -1,4 +1,6 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Jeu {
@@ -9,7 +11,8 @@ public class Jeu {
 	boolean joueur;		// Indique le joueur en cours
 	int[] historique;	// Enregistre les colonnes jouées
 	Options opts;		// Une fenêtre d'options
-	Computer deep;	
+	Computer deep;
+	static Heuristiques euri;
 	
 	public Jeu(boolean optTrue) {
 		if (optTrue)
@@ -249,8 +252,8 @@ public class Jeu {
 				nouveauJeu();
 		}
 		else {
-			if (opts.computerOn && joueur != opts.computerStarts)
-				this.ordiJoue();
+			if (opts.heuri2 && joueur != opts.computerStarts)
+				this.heuristique2Joue();
 			
 		}
 			
@@ -292,24 +295,29 @@ public class Jeu {
 	}
 	
 	/** Asks the computer to play */	
-	public void ordiJoue() {
+	/*public void ordiJoue() {
+		int nbCoupMax=this.matJeu.length*this.matJeu[0].length-nbCoups-2;
+		
+		Heuristiques euri=new Heuristiques(this);
+		//System.out.println("Heuristique:"+euri);
+		//System.out.println("HeuriMinMax au nombre de coup: " + nbCoups);
+		//System.out.println("le maximum : "+ Heuristiques.HeuriMinMax(true, this.matJeu));
+		//System.out.println("le minimum : "+ Heuristiques.HeuriMinMax(false, this.matJeu));
+		//System.out.println("le resultat : "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, nbCoupMax));
+		System.out.println("la case jouer:"+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0)+"et sont poid est de "+Heuristiques.HeuriMinMaxProfonde(true, matJeu, 2).poid);
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
+		
+	}*/
+	public void heuristique2Joue() {
 		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
 		plateau.repaint();
-		deep.nbCoups = nbCoups;
-		deep.joueurBase = joueur; // A SUPPRIMER
-		//deep.matJeu = matJeu;
-		deep.matJeu = new byte[opts.getGameHeight()][opts.getGameWidth()];
-		deep.matJeu2 = new byte[opts.getGameHeight()][opts.getGameWidth()];
-		for (int i = 0; i < opts.getGameHeight(); i++) {
-			for (int j = 0; j < opts.getGameWidth(); j++) {
-				deep.matJeu[i][j] = matJeu[i][j];
-				deep.matJeu2[i][j] = matJeu[i][j];
-			}
-		}	
-		
-		jouer(deep.ordiJoue(joueur));
-		
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
 	}
+	
+	
+	
+	
+	
 	
 	/** If network enabled, sends to the other user the move just played locally and waits for the other user to play
 	 * and makes other user's move played locally
@@ -326,7 +334,7 @@ public class Jeu {
 	/** Saves the game
 	 * @param file file in which the game will be saved
 	 */	
-	public void enregistrer(File file) {
+	/*public void enregistrer(File file) {
 		try {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter out = new BufferedWriter(fw);
@@ -359,7 +367,7 @@ public class Jeu {
 	/** Opens a game from a file
 	 * @param file file from which the game will be opened
 	 */	
-	public void ouvrir(File file) {
+	/*public void ouvrir(File file) {
 		try {
 			FileReader fr = new FileReader(file);
 			BufferedReader out = new BufferedReader(fr);
@@ -397,7 +405,7 @@ public class Jeu {
 		} catch (IOException e) {
 			
 		}
-	}
+	}*/
 	
 	/** Undo the last move */	
 	public void undo() {

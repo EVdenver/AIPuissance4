@@ -20,6 +20,7 @@ class Computer {
 	 * @return Colonne que l'ordinateur joue
 	 */
 	public int ordiJoue(boolean joueur) {
+		
 	
 		forbiddenCols = new boolean[7];
 		int ligne;

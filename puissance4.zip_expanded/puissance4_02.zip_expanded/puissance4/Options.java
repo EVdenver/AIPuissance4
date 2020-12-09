@@ -1,6 +1,8 @@
 public class Options {
 	private int nbRow;			// Nombre de lignes
 	private int nbCol;			// Nombre de colonnes
+	boolean alpha = false;
+	boolean heuri2=false; // Heuristique 2 activée ou non
 	boolean computerOn = false;	// Ordinateur activé ou non
 	boolean computerStarts = false;
 	Jeu jeu;
@@ -46,12 +48,19 @@ public class Options {
 		return nbRow;
 	}
 	
-	public void initComputer(boolean computerOn, boolean computerStarts, int diff) {
+	/*public void initComputer(boolean computerOn, boolean computerStarts, int diff) {
 		this.computerOn = computerOn;
 		this.computerStarts = computerStarts;
 		jeu.deep = new Computer(diff); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
 		if (computerStarts)
 			jeu.ordiJoue();
+	}*/
+	public void initComputerHeuristique2(boolean computerOn, boolean computerStarts) {
+		this.heuri2 = computerOn;
+		this.computerStarts = computerStarts;
+		jeu.euri = new Heuristiques(jeu); // on crée tout le temps l'ordinateur, au cas où l'utilisateur clique sur Jouer...
+		if (computerStarts)
+			jeu.heuristique2Joue();
 	}
 	
 }

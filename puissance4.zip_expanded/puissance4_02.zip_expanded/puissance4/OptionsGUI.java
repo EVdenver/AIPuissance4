@@ -10,7 +10,8 @@ import java.awt.event.*;
 
 /**
  *
- * @author  Michaël Perrin
+ * @author  Michaël Perrin 
+ * @modifieur Vincent Marechal, Garnier Nicolas
  */
 
 public class OptionsGUI extends JFrame implements ActionListener {
@@ -27,10 +28,11 @@ public class OptionsGUI extends JFrame implements ActionListener {
 	JLabel nbColLabel = new JLabel("Nombre de colonnes du tableau :");
 	JTextField text2 = new JTextField("7", 2);
 	
-	JCheckBox computerOnCheckBox = new JCheckBox("Jouer contre l'ordinateur", false);
+	JCheckBox computerHeuristique1 = new JCheckBox("Jouer contre l'heuristique 1", false);
+	JCheckBox computerHeuristique2 = new JCheckBox("Jouer contre l'heuristique 2", false);
+	//JCheckBox computerHeuristiquefight = new JCheckBox("Heuristique 1 contre l'heuristique 2", false);
+	JCheckBox computerHeuristique1Alpha = new JCheckBox("Jouer contre l'heuristique 1(alpha)", false);
 	JCheckBox computerStartsCheckBox = new JCheckBox("L'ordinateur commence", false);
-	JLabel label4 = new JLabel("Difficulté");
-	JSlider slider1 = new JSlider(1, 9, 1);
 
 	JButton ok = new JButton("Ok");
 	
@@ -55,18 +57,21 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		
 		// L'ordinateur joue ?
 		JPanel computerPane = new JPanel(new GridLayout(4, 1));
-		computerPane.add(computerOnCheckBox);
+		computerPane.add(computerHeuristique1);
+		computerPane.add(computerHeuristique2);
 		computerPane.add(computerStartsCheckBox);
-		computerPane.add(label4);
+		computerHeuristique1Alpha.setEnabled(false);
 		
-		initSlider(); // règle les paramètres de slider1
+		computerHeuristique1.addActionListener(this);
+		computerHeuristique2.addActionListener(this);
+		computerHeuristique1Alpha.addActionListener(this);
 		
-		computerOnCheckBox.addActionListener(this);
+		
 		
 		buildConstraints(constraints, 0, 1, 2, 1, 0, 20);
 		gbl.setConstraints(computerPane, constraints);
 		
-		computerPane.add(slider1);
+		
 		
 		pane.add(computerPane);
 		
@@ -77,7 +82,9 @@ public class OptionsGUI extends JFrame implements ActionListener {
 		gbl.setConstraints(ok, constraints);
 		pane.add(ok);
 		
-		setComputerOptionsEnabled(computerOnCheckBox.isSelected());
+		setComputerOptionsEnabled(computerHeuristique1.isSelected());
+		setComputerOptionsEnabled(computerHeuristique1Alpha.isSelected());
+		setComputerOptionsEnabled(computerHeuristique2.isSelected());
 		
 		setContentPane(pane);
 		
@@ -89,14 +96,7 @@ public class OptionsGUI extends JFrame implements ActionListener {
 
 	}
 	
-	/** Sets the good settings for the computer difficulty slider */	
-	public void initSlider() {
-		slider1.setMajorTickSpacing(4);
-		slider1.setMinorTickSpacing(1);
-		slider1.setPaintTicks(true);
-		slider1.setPaintLabels(true);
-		slider1.setSnapToTicks(true);
-	}
+
 	
 	public void buildConstraints (GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy) {
 		gbc.gridx = gx;			// Coordonnées dans la "grille"
@@ -120,8 +120,10 @@ public class OptionsGUI extends JFrame implements ActionListener {
 				
 				setVisible(false);
 				
-				opts.initComputer(computerOnCheckBox.isSelected(), computerStartsCheckBox.isSelected(), slider1.getValue());
-				
+				//if(computerHeuristique2.isSelected()) {
+				opts.initComputerHeuristique2(computerHeuristique2.isSelected(), computerStartsCheckBox.isSelected());	
+				//}
+				computerHeuristique1.setEnabled(false);
 				
 			} catch (NumberFormatException e) {
 				Saisie.erreurMsgOk("Erreur : le nombre de ligne et le nombre de colonnes doivent être des entiers", "Erreur");
@@ -129,8 +131,8 @@ public class OptionsGUI extends JFrame implements ActionListener {
 			
 		}
 		
-		else if (src == computerOnCheckBox)
-			setComputerOptionsEnabled(computerOnCheckBox.isSelected()); // disables or enables the computer options
+		else if (src == computerHeuristique2)
+			setComputerOptionsEnabled(computerHeuristique2.isSelected()); // disables or enables the computer options
 		
 	}
 	
@@ -139,7 +141,7 @@ public class OptionsGUI extends JFrame implements ActionListener {
 	 */	
 	public void setComputerOptionsEnabled(boolean b) {
 		computerStartsCheckBox.setEnabled(b);
-		slider1.setEnabled(b);
+		
 	}
 	
 }
