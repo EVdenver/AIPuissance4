@@ -58,7 +58,7 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 		
 		addWindowListener(this);
 		
-		nbGrilles++;   // Une nouvelle grille a été créée
+		nbGrilles++;   // Une nouvelle grille a Ã©tÃ© crÃ©Ã©e
 		
 	}
 	
@@ -129,15 +129,15 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 	public void actionPerformed(ActionEvent actionEvent) {
 		JButton src = (JButton)actionEvent.getSource();
 		if (src == undo) {
-			Case c = (Case)this.pane.getComponent(0); // On prend par exemple la 1ère case pour récupérer le Jeu
+			Case c = (Case)this.pane.getComponent(0); // On prend par exemple la 1Ã¨re case pour rÃ©cupÃ©rer le Jeu
 			c.jeu.undo();
 		}
 		/*else if (src == saveas) {
 			Case c = (Case)this.pane.getComponent(0);
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showSaveDialog(this);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-				c.jeu.enregistrer(fc.getSelectedFile());
+			//if (returnVal == JFileChooser.APPROVE_OPTION)
+				//c.jeu.enregistrer(fc.getSelectedFile());
 		}
 		else if (src == open) {
 			Case c = (Case)this.pane.getComponent(0);
@@ -150,13 +150,15 @@ public class Grille extends JFrame implements MouseListener, ActionListener, Win
 			Jeu.nouveauJeu();
 		}
 		/*else if (src == fermer) {
-			int ok = Saisie.question_ouinon("Etes-vous sûr de vouloir fermer toutes les fenêtres ?", "Fermer le programme");
+			int ok = Saisie.question_ouinon("Etes-vous sÃ»r de vouloir fermer toutes les fenÃªtres ?", "Fermer le programme");
 			if (ok == 0)
 				System.exit(0);
 		}*/
 		else if (src == comput) {
 			Case c = (Case)this.pane.getComponent(0);
+
 			c.jeu.heuristique1Joue();
+			c.jeu.heuristique2Joue();
 		}
 	}
 	

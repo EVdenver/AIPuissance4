@@ -1,16 +1,18 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Jeu {
 	Grille plateau;		// Juste le graphisme
 	byte[][] matJeu;	// La matrice qui contiendra la partie
-	int nbCoups;		// Contient le nombre de coups joués (détection partie nulle)
-	boolean enCours;	// Indique si la partie est en cours ou terminée
+	int nbCoups;		// Contient le nombre de coups jouÃ©s (dÃ©tection partie nulle)
+	boolean enCours;	// Indique si la partie est en cours ou terminÃ©e
 	boolean joueur;		// Indique le joueur en cours
-	int[] historique;	// Enregistre les colonnes jouées
-	Options opts;		// Une fenêtre d'options
-	//Computer deep;
+	int[] historique;	// Enregistre les colonnes jouÃ©es
+	Options opts;		// Une fenÃªtre d'options
 	HeuristiqueCaseVide heuristique1;
+	static Heuristiques euri;
 	
 	public Jeu(boolean optTrue) {
 		if (optTrue)
@@ -25,7 +27,7 @@ public class Jeu {
 	 * @param colM col line just played by joueur
 	 * @return true if there is a winning position, false if not
 	 */	
-	public boolean joueurGagne(boolean joueur, int ligneM, int colM) {  // le M majuscule indique que c'est une ligne correspondant à la position dans la matrice
+	public boolean joueurGagne(boolean joueur, int ligneM, int colM) {  // le M majuscule indique que c'est une ligne correspondant Ã  la position dans la matrice
 		byte jVal = 1; // Variable contenant la valeur du joueur, un byte suffit
 		if (joueur)
 			jVal = 2;
@@ -43,7 +45,7 @@ public class Jeu {
 	 * @return true if there is a horizontal winning position, false if not
 	 */	
 	public boolean horiGagne(byte jVal, int ligneM, int colM) {
-		int nbAlign = 0;  // nombre de pions qui sont alignés les uns à la suite des autres
+		int nbAlign = 0;  // nombre de pions qui sont alignÃ©s les uns Ã  la suite des autres
 		int colMin = colM - 3;
 		if (colMin <= 0)
 			colMin = 0;
@@ -71,7 +73,7 @@ public class Jeu {
 	 * @return true if there is a vertical winning position, false if not
 	 */	
 	public boolean vertGagne(byte jVal, int ligneM, int colM) {
-		int nbAlign = 0;  // nombre de pions qui sont alignés les uns à la suite des autres
+		int nbAlign = 0;  // nombre de pions qui sont alignÃ©s les uns Ã  la suite des autres
 		int ligneMin = ligneM - 3;
 		if (ligneMin <= 0)
 			ligneMin = 0;
@@ -107,17 +109,17 @@ public class Jeu {
 		int colMax = colM;
 		
 		int compteur = 0;
-		while (ligneMax + 1 < opts.getGameHeight() && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en bas à droite du plateau
+		while (ligneMax + 1 < opts.getGameHeight() && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en bas Ã  droite du plateau
 			ligneMax++;
 			colMax++;
-			compteur++;   // on ne va que 3 cases en bas à droite au maximum
+			compteur++;   // on ne va que 3 cases en bas Ã  droite au maximum
 		}
 		
 		compteur = 0;
-		while (ligneMin >= 1 && colMin >= 1 && compteur <= 2) {  //On va en haut à gauche du plateau de jeu
+		while (ligneMin >= 1 && colMin >= 1 && compteur <= 2) {  //On va en haut Ã  gauche du plateau de jeu
 			ligneMin--;
 			colMin--;
-			compteur++;   // on ne va que 3 cases en bas à droite au maximum
+			compteur++;   // on ne va que 3 cases en bas Ã  droite au maximum
 		}
 		
 		ligneM = ligneMin;
@@ -153,17 +155,17 @@ public class Jeu {
 		int colMax = colM;
 		
 		int compteur = 0;
-		while (ligneMax + 1 < opts.getGameHeight() && colMin >= 1 && compteur <= 2) {  //On va en bas à gauche du plateau
+		while (ligneMax + 1 < opts.getGameHeight() && colMin >= 1 && compteur <= 2) {  //On va en bas Ã  gauche du plateau
 			ligneMax++;
 			colMin--;
-			compteur++;   // on ne va que 3 cases en bas à droite au maximum
+			compteur++;   // on ne va que 3 cases en bas Ã  droite au maximum
 		}
 		
 		compteur = 0;
-		while (ligneMin >= 1 && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en haut à droite du plateau de jeu
+		while (ligneMin >= 1 && colMax + 1 < opts.getGameWidth() && compteur <= 2) {  //On va en haut Ã  droite du plateau de jeu
 			ligneMin--;
 			colMax++;
-			compteur++;   // on ne va que 3 cases en bas à droite au maximum
+			compteur++;   // on ne va que 3 cases en bas Ã  droite au maximum
 		}
 		
 		ligneM = ligneMax;
@@ -189,8 +191,8 @@ public class Jeu {
 	 * @param col col to be played
 	 */	
 	public void jouer(int col) {
-		boolean coupValable;	// Contient la validité du coup que le jouer veut jouer
-		int ligne = 0;		// Là où sera stockée la ligne jouée, le 0 sert pour le compilateur
+		boolean coupValable;	// Contient la validitÃ© du coup que le jouer veut jouer
+		int ligne = 0;		// LÃ  oÃ¹ sera stockÃ©e la ligne jouÃ©e, le 0 sert pour le compilateur
 		
 		coupValable = false;
 			
@@ -210,18 +212,18 @@ public class Jeu {
 	public void validerCoup(int ligne, int col) {
 		
 		if (!joueur) {
-			this.matJeu[ligne - 1][col - 1] = 1;  // 1 désigne dans la matrice un pion du joueur "false"
+			this.matJeu[ligne - 1][col - 1] = 1;  // 1 dÃ©signe dans la matrice un pion du joueur "false"
 			Case cc = (Case)plateau.pane.getComponent((opts.getGameWidth()) * (ligne - 1) + (col - 1));
 			cc.modifierVal(1);
 		} else {
-			this.matJeu[ligne - 1][col - 1] = 2;  // 2 désigne dans la matrice un pion du joueur "true"
+			this.matJeu[ligne - 1][col - 1] = 2;  // 2 dÃ©signe dans la matrice un pion du joueur "true"
 			Case cc = (Case)plateau.pane.getComponent((opts.getGameWidth()) * (ligne - 1) + (col - 1));
 			cc.modifierVal(2);
 		}
 
 		boolean gagne = this.joueurGagne(joueur, ligne - 1, col - 1);
 		if (gagne) {
-			enCours = false; // La partie est terminée
+			enCours = false; // La partie est terminÃ©e
 			if (!joueur)
 				Saisie.infoMsgOk("Le joueur 1 a gagne", "Bravo");
 			else
@@ -231,7 +233,7 @@ public class Jeu {
 		nbCoups++;  // On sous-entend les this
 		if (nbCoups >= opts.getGameHeight() * opts.getGameWidth() && !gagne) {
 			Saisie.infoMsgOk("Aucun des 2 joueurs n'a su gagner... : partie nulle", "Partie nulle");
-			enCours = false;  // La partie est terminée
+			enCours = false;  // La partie est terminÃ©e
 		}
 		
 		historique[nbCoups - 1] = col;
@@ -252,13 +254,14 @@ public class Jeu {
 		else {
 			if (opts.heuristique1On && joueur != opts.computerStarts)
 				this.heuristique1Joue();
-			
+			if (opts.heuri2 && joueur != opts.computerStarts)
+				this.heuristique2Joue();			
 		}
 			
 				
 	}
 	
-	// Méthode testant la validité d'un coup
+	// MÃ©thode testant la validitÃ© d'un coup
 	/** Verifies if you are allowed to play the chosen cell
 	 * @param ligne row to be verified
 	 * @param col col to be verified
@@ -272,14 +275,14 @@ public class Jeu {
 		}
 		
 		if (!enCours) {
-			Saisie.erreurMsgOk("La partie est terminée, vous ne pouvez plus jouer", "Erreur : partie terminée");
+			Saisie.erreurMsgOk("La partie est terminÃ©e, vous ne pouvez plus jouer", "Erreur : partie terminÃ©e");
 			return false;
 		}
 		
 		return true;
 	}
 	
-	// Méthode cherchant la 1ère ligne jouable d'une colonne (gravitation...)
+	// MÃ©thode cherchant la 1Ã¨re ligne jouable d'une colonne (gravitation...)
 	/** Search the row to be played for a given col (gravity law...)
 	 * @param col col for which the method searches the line
 	 * @return Number of the line corresponding to the col, -1 if the col is full
@@ -289,41 +292,20 @@ public class Jeu {
 			if (matJeu[i - 1][col - 1] == 0)
 				return i;
 		}
-		return -1; // Aucune ligne n'a été trouvée : la colonne est remplie
+		return -1; // Aucune ligne n'a Ã©tÃ© trouvÃ©e : la colonne est remplie
 	}
 	
-	/** Asks the computer to play */	
-	/*public void ordiJoue() {
-		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
-		plateau.repaint();
-		deep.nbCoups = nbCoups;
-		deep.joueurBase = joueur; // A SUPPRIMER
-		//deep.matJeu = matJeu;
-		deep.matJeu = new byte[opts.getGameHeight()][opts.getGameWidth()];
-		deep.matJeu2 = new byte[opts.getGameHeight()][opts.getGameWidth()];
-		for (int i = 0; i < opts.getGameHeight(); i++) {
-			for (int j = 0; j < opts.getGameWidth(); j++) {
-				deep.matJeu[i][j] = matJeu[i][j];
-				deep.matJeu2[i][j] = matJeu[i][j];
-			}
-		}	
-		
-		jouer(deep.ordiJoue(joueur));
-		
-	}*/
 	
 	public void heuristique1Joue() {
-		plateau.statusBar.setText("L'ordinateur réfléchit : patientez");
+		plateau.statusBar.setText("L'ordinateur rÃ©flÃ©chit : patientez");
 		plateau.repaint();
 		jouer(heuristique1.ordiJoue(joueur));
+
+	public void heuristique2Joue() {
+		plateau.statusBar.setText("L'ordinateur rÃ©flÃ©chit : patientez");
+		plateau.repaint();
+		jouer(Heuristiques.HeuriMinMaxProfonde(true, matJeu, 0).col);
 	}
-	
-	/** If network enabled, sends to the other user the move just played locally and waits for the other user to play
-	 * and makes other user's move played locally
-	 * @param col Col to be send to the other user
-	 * @param wait true if waits for a distant user's move false if just sends the local move
-	 */	
-	
 	
 	/** Makes a new game */	
 	public static void nouveauJeu() {
@@ -337,7 +319,7 @@ public class Jeu {
 		try {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter out = new BufferedWriter(fw);
-			out.write("Puissance 4  Kariboo Mikl\n");  // En-tête de fichier
+			out.write("Puissance 4  Kariboo Mikl\n");  // En-tÃªte de fichier
 			out.write(opts.getGameHeight() + " ");
 			out.write(opts.getGameWidth() + " ");
 			out.write(nbCoups + " ");
@@ -371,7 +353,7 @@ public class Jeu {
 			FileReader fr = new FileReader(file);
 			BufferedReader out = new BufferedReader(fr);
 			String line = out.readLine();
-			if (line.equals("Puissance 4  Kariboo Mikl")) {  // Test de validité de fichier
+			if (line.equals("Puissance 4  Kariboo Mikl")) {  // Test de validitÃ© de fichier
 				line = out.readLine();
 				StringTokenizer s = new StringTokenizer(line);
 				int nbR = Integer.parseInt(s.nextToken());
@@ -392,7 +374,7 @@ public class Jeu {
 				for (int i = 0; i < nbCou; i++)
 					j.jouer(Integer.parseInt(s.nextToken()));
 
-				// On charge l'ordinateur ici, après que la partie ait été chargée, pour éviter des pbs...
+				// On charge l'ordinateur ici, aprÃ¨s que la partie ait Ã©tÃ© chargÃ©e, pour Ã©viter des pbs...
 				if (computerO == 1)
 					j.opts.computerOn = true;
 				if (computerStart == 1)
