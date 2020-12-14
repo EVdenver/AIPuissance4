@@ -144,7 +144,7 @@ public class Heuristiques {
 			        
 			        choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=jVal;
 			        if(choixPossibles.get(0).jeu.joueurGagne(!choixPossibles.get(0).jeu.joueur, choixPossibles.get(0).ligne-1, choixPossibles.get(0).col-1)) {
-			        	choixPossibles.get(0).jeu.matJeu[choix.ligne-1][choix.col-1]=0;
+			        	choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=0;
 			        	return choixPossibles.get(0);
 			        }
 			        choixPossibles.get(0).jeu.matJeu[choixPossibles.get(0).ligne-1][choixPossibles.get(0).col-1]=0;
